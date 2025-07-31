@@ -1,15 +1,17 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, My_Soul } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const mySoul = My_Soul({
+  variable: "--font-my_soul",
+  weight: '400',
+  subsets: ['latin']
+})
+
 
 export const metadata = {
   title: "Create Next App",
@@ -19,9 +21,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${inter.variable} ${mySoul.variable} min-h-screen backdrop-blur-sm`}>
         {children}
       </body>
     </html>
