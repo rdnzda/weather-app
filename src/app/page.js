@@ -14,44 +14,69 @@ export default function Home() {
     return stored ? JSON.parse(stored) : [];
   });
 
+  const [bgClass, setBgClass] = useState("bg-clear");
+
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  const handleWeatherChange = (description) => {
+    console.log("Météo changée :", description);
+    if (!description) return setBgClass("bg-clear");
+
+    const desc = description.toLowerCase();
+
+    if (desc.includes("clear")) setBgClass("bg-clear");
+    else if (desc.includes("cloud")) setBgClass("bg-cloudy");
+    else if (desc.includes("light rain")) setBgClass("bg-rainy");
+    else if (desc.includes("thunderstorm")) setBgClass("bg-thunder");
+    else if (desc.includes("snow")) setBgClass("bg-snowy");
+    else if (desc.includes("mist") || desc.includes("fog")) setBgClass("bg-foggy");
+    else setBgClass("bg-clear");
+  };
+
   return (
-    // On transforme le conteneur principal en flexbox vertical
-    <div className="h-screen flex flex-col">
-      {/* 1. Zone de contenu principal */}
-      {/* flex-1 permet à cette zone de prendre tout l'espace vertical disponible */}
-      {/* overflow-y-auto gère le défilement si le contenu est trop grand */}
-      <main className="flex-1 mt-15 mb-15 overflow-y-auto">
-        <div className="flex justify-center items-center min-h-full p-4 sm:p-6">
-          {currentTab === "weather" && <Dashboard selectedCity={selectedCity} />}
+    <div className="relative h-screen w-full overflow-hidden">
+      {/* ✅ Background animé et flouté */}
+      <div className={`absolute inset-0 z-0 ${bgClass} bg-cover bg-center blur-xs scale-110 transition-all duration-500`} />
 
-          {currentTab === "settings" && (
-            <div className="mt-10 text-center text-white">
-              <h2 className="text-2xl font-bold">Paramètres</h2>
-              <p className="mt-2">Fonctionnalités à venir...</p>
-            </div>
-          )}
+      {/* ✅ Overlay sombre pour lisibilité */}
+      <div className="absolute inset-0 z-10 bg-black/30" />
 
-          {currentTab === "favorites" && (
-            <Favorites
-              onSelectCity={(city) => {
-                setSelectedCity(city);
-                setCurrentTab("weather");
-              }}
-              cities={favorites}
-              setCities={setFavorites}
-            />
-          )}
-        </div>
-      </main>
+      {/* ✅ Contenu principal */}
+      <div className="relative z-20 flex flex-col h-full w-full">
+        <main className="flex-1 md:mt-15 md:mb-15 overflow-y-auto min-w-full">
+          <div className="flex justify-center items-center min-h-full p-4 sm:p-6">
+            {currentTab === "weather" && (
+              <Dashboard
+                selectedCity={selectedCity}
+                onWeatherChange={handleWeatherChange}
+              />
+            )}
 
-      {/* 2. Menu bas fixé */}
-      {/* flex-shrink-0 empêche le menu de rétrécir */}
-      <div className="flex-shrink-0">
-        <BottomMenu currentTab={currentTab} setCurrentTab={setCurrentTab} />
+            {currentTab === "settings" && (
+              <div className="mt-10 text-center text-white">
+                <h2 className="text-2xl font-bold">Paramètres</h2>
+                <p className="mt-2">Fonctionnalités à venir...</p>
+              </div>
+            )}
+
+            {currentTab === "favorites" && (
+              <Favorites
+                onSelectCity={(city) => {
+                  setSelectedCity(city);
+                  setCurrentTab("weather");
+                }}
+                cities={favorites}
+                setCities={setFavorites}
+              />
+            )}
+          </div>
+        </main>
+
+        <footer className="fixed bottom-0 left-0 w-full z-30">
+          <BottomMenu currentTab={currentTab} setCurrentTab={setCurrentTab} />
+        </footer>
       </div>
     </div>
   );

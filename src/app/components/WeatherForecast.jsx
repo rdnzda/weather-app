@@ -28,7 +28,7 @@ const getWeatherIconSrc = (description) => {
 
   if (desc.includes("clear")) return "/images/animated/day.svg";
   if (desc.includes("clouds")) return "/images/animated/cloudy.svg";
-  if (desc.includes("rain")) return "/images/animated/rainy-1.svg";
+  if (desc.includes("rain")) return "/images/animated/rainy-6.svg";
   if (desc.includes("thunderstorm")) return "/images/animated/thunder.svg";
   if (desc.includes("snow")) return "/images/animated/snowy-1.svg";
   if (desc.includes("mist") || desc.includes("fog"))
