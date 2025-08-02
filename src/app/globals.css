@@ -146,7 +146,7 @@ input[type="search"]::-webkit-search-results-decoration {
     background-size: cover;
   }
 
-  .bg-fog {
+  .bg-foggy {
     background: url('/images/backgrounds/fog.jpg') no-repeat center center fixed;
     background-size: cover;
   }
