@@ -110,7 +110,7 @@ function Dashboard({ selectedCity }) {
   };
 
   return (
-    <main className="flex flex-col gap-6 items-center min-h-[90%] justify-center min-w-3/4">
+    <div className="flex flex-col w-full max-w-4xl gap-6 items-center">
       {loading ? (
         <img
           src="/images/animated/thunder.svg"
@@ -137,14 +137,14 @@ function Dashboard({ selectedCity }) {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="w-full xl:text-2xl h-12
+                className="w-full xl:text-2xl md:h-12 h-10 rounded-xl
                 lg:text-xl
                 md:text-lg
-                sm:text-md"
+                text-sm"
               />
             </AnimatedInput>
           </div>
-          <div className="flex flex-col gap-5 items-center min-w-full">
+          <div className="flex flex-col sm:gap-5 gap-3 items-center min-w-full">
             <WeatherCard weatherInfo={weatherInfo} />
             <WeatherForecast weatherInfo={forecast} />
             <WeatherDetails weatherInfo={weatherInfo} />
@@ -153,7 +153,7 @@ function Dashboard({ selectedCity }) {
       ) : (
         <p className="text-red-500 text-sm">Impossible de récupérer la météo.</p>
       )}
-    </main>
+    </div>
   );
 }
 

@@ -19,33 +19,40 @@ export default function Home() {
   }, [favorites]);
 
   return (
-    <>
-      {/* Contenu principal */}
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        {currentTab === "weather" && <Dashboard selectedCity={selectedCity} />}
+    // On transforme le conteneur principal en flexbox vertical
+    <div className="h-screen flex flex-col">
+      {/* 1. Zone de contenu principal */}
+      {/* flex-1 permet à cette zone de prendre tout l'espace vertical disponible */}
+      {/* overflow-y-auto gère le défilement si le contenu est trop grand */}
+      <main className="flex-1 mt-15 mb-15 overflow-y-auto">
+        <div className="flex justify-center items-center min-h-full p-4 sm:p-6">
+          {currentTab === "weather" && <Dashboard selectedCity={selectedCity} />}
 
-        {currentTab === "settings" && (
-          <div className="mt-10 text-center text-white">
-            <h2 className="text-2xl font-bold">Paramètres</h2>
-            <p className="mt-2">Fonctionnalités à venir...</p>
-          </div>
-        )}
+          {currentTab === "settings" && (
+            <div className="mt-10 text-center text-white">
+              <h2 className="text-2xl font-bold">Paramètres</h2>
+              <p className="mt-2">Fonctionnalités à venir...</p>
+            </div>
+          )}
 
-        {currentTab === "favorites" && (
-          <Favorites
-            onSelectCity={(city) => {
-              setSelectedCity(city);
-              setCurrentTab("weather");
-            }}
-            cities={favorites} setCities={setFavorites}
-          />
-        )}
-      </div>
+          {currentTab === "favorites" && (
+            <Favorites
+              onSelectCity={(city) => {
+                setSelectedCity(city);
+                setCurrentTab("weather");
+              }}
+              cities={favorites}
+              setCities={setFavorites}
+            />
+          )}
+        </div>
+      </main>
 
-      {/* Menu bas fixé */}
-      <div className="fixed bottom-0 left-0 w-full z-50">
+      {/* 2. Menu bas fixé */}
+      {/* flex-shrink-0 empêche le menu de rétrécir */}
+      <div className="flex-shrink-0">
         <BottomMenu currentTab={currentTab} setCurrentTab={setCurrentTab} />
       </div>
-    </>
+    </div>
   );
 }

@@ -4,7 +4,7 @@ import { FaCloudSun, FaCog, FaHeart } from "react-icons/fa";
 
 export default function BottomMenu({ currentTab, setCurrentTab }) {
   return (
-    <nav className="fixed bottom-12 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg z-50 rounded-2xl flex">
+    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg z-50 rounded-2xl flex px-4 py-2">
       <button
         onClick={() => setCurrentTab("weather")}
         className={`flex flex-col items-center px-3 py-2 rounded-xl transition-all ${

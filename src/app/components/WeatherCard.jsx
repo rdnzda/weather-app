@@ -38,14 +38,13 @@ const translateDescription = (desc) => {
 
 const WeatherCard = ({ weatherInfo }) => {
   const translatedDescription = translateDescription(weatherInfo.description);
+  console.log(weatherInfo);
 
   return (
     <div
-      className="flex flex-row xl:justify-between items-center bg-white/10 backdrop-blur-md xl:p-4 lg:p-3 md:p-2 sm:p-1 p-1 rounded-xl shadow-md text-white text-md min-w-full
-      lg:justify-around
-      justify-around gap-10"
+      className="flex md:flex-row md:justify-around justify-center items-center sm:bg-white/10 md:backdrop-blur-md xl:p-4 lg:p-3 md:p-2 sm:p-1 p-1 rounded-xl md:shadow-md text-white text-md min-w-full"
     >
-      <div className="flex flex-col items-start gap-20 ml-5 mt-5 mb-5">
+      <div className="flex flex-col items-start md:gap-15 gap-5 sm:ml-5 ml-2 mt-5 mb-5">
         <div className="flex flex-col items-start gap-2">
           <h2
             className="font-bold xl:text-5xl
@@ -77,7 +76,7 @@ const WeatherCard = ({ weatherInfo }) => {
         </h3>
       </div>
 
-      <div className="flex flex-row items-center align-center mr-7">
+      <div className="flex flex-row items-center align-center sm:mr-5 mr-2">
         <img
           src={getWeatherIconSrc(weatherInfo.description)}
           alt="weather icon"
@@ -85,7 +84,7 @@ const WeatherCard = ({ weatherInfo }) => {
           lg:w-70 lg:h-70
           md:w-60 md:h-60
           sm:w-50 sm:h-50
-          w-40 h-40"
+          w-35 h-35"
         />
       </div>
     </div>

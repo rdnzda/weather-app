@@ -70,22 +70,22 @@ export default function Favorites({ onSelectCity, cities, setCities }) {
   };
 
   return (
-    <div className="flex flex-col gap-6 min-w-3/4 text-white">
+    <div className="flex flex-col gap-6 w-full max-w-4xl text-white">
       {/* Ajout de ville */}
-      <div className="flex gap-3">
+      <div className="flex gap-2">
         <Input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ajouter une ville"
-          className="w-full xl:text-2xl lg:text-xl md:text-lg sm:text-md h-12 placeholder:text-white/70 text-white border border-white/30 rounded-md focus:border-white focus:ring-1 focus:ring-white transition"
+          className="w-full xl:text-2xl lg:text-xl md:text-lg sm:text-md h-12 placeholder:text-white/70 text-white border border-white rounded-xl focus:border-white focus:ring-1 focus:ring-white transition"
           onKeyDown={(e) => {
             if (e.key === "Enter") addCity();
           }}
         />
         <button
           onClick={addCity}
-          className="flex items-center justify-center px-4 py-2 rounded-lg text-white text-xl bg-white/10 hover:bg-white/20"
+          className="flex items-center justify-center px-4 py-2 rounded-xl text-white text-xl bg-white/10 hover:bg-white/20"
         >
           <FaHeart />
         </button>

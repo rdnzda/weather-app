@@ -18,9 +18,9 @@ const WeatherDetails = ({ weatherInfo }) => {
         QUALITÉ DE L'AIR
       </h2>
       <div className="grid grid-cols-2 xl:gap-5 lg:gap-4 md:gap-3 sm:gap-2 gap-2 text-lg ml-7">
-        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1 gap-1">
+        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1">
           <div className="flex flex-row gap-3">
-            <ThermometerSun className="w-8 h-8 text-yellow-400" />
+            <ThermometerSun className="md:w-8 md:h-8 w-6 h-6 text-yellow-400" />
             <p
               className="xl:text-lg
             lg:text-md
@@ -32,65 +32,65 @@ const WeatherDetails = ({ weatherInfo }) => {
             </p>
           </div>
           <p
-            className="font-bold xl:text-3xl ml-11
+            className="font-bold xl:text-3xl md:ml-11 ml-9
           lg:text-2xl
           md:text-xl
           sm:text-lg
-          text-md"
+          text-xs"
           >
             {Math.round(feels_like)}°C
           </p>
         </div>
 
-        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1 gap-1">
+        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1">
           <div className="flex flex-row gap-3">
-            <Droplets className="w-8 h-8 text-blue-300" />
+            <Droplets className="md:w-8 md:h-8 w-6 h-6 text-blue-300" />
             <p className="xl:text-lg lg:text-md md:text-sm sm:text-xs text-xs">
               Humidité
             </p>
           </div>
           <p
-            className="font-bold xl:text-3xl ml-11
+            className="font-bold xl:text-3xl md:ml-11 ml-9
           lg:text-2xl
           md:text-xl
           sm:text-lg
-          text-md"
+          text-xs"
           >
             {humidity}%
           </p>
         </div>
 
-        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1 gap-1">
+        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1">
           <div className="flex flex-row gap-3">
-            <Wind className="w-8 h-8 text-sky-400" />
+            <Wind className="md:w-8 md:h-8 w-6 h-6 text-sky-400" />
             <p className="xl:text-lg lg:text-md md:text-sm sm:text-xs text-xs">
               Vent
             </p>
           </div>
           <p
-            className="font-bold xl:text-3xl ml-11
+            className="font-bold xl:text-3xl md:ml-11 ml-9
           lg:text-2xl
           md:text-xl
           sm:text-lg
-          text-md"
+          text-xs"
           >
             {windSpeed} m/s
           </p>
         </div>
 
-        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1 gap-1">
+        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1">
           <div className="flex flex-row gap-3">
-            <GaugeCircle className="w-8 h-8 text-purple-300" />
+            <GaugeCircle className="md:w-8 md:h-8 w-6 h-6 text-purple-300" />
             <p className="xl:text-lg lg:text-md md:text-sm sm:text-xs text-xs">
-            Pression
+              Pression
             </p>
           </div>
           <p
-            className="font-bold xl:text-3xl ml-11
+            className="font-bold xl:text-3xl md:ml-11 ml-9
           lg:text-2xl
           md:text-xl
           sm:text-lg
-          text-md"
+          text-xs"
           >
             {pressure} hPa
           </p>

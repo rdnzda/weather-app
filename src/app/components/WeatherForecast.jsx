@@ -39,7 +39,7 @@ const getWeatherIconSrc = (description) => {
 
 const WeatherForecast = ({ weatherInfo }) => {
   return (
-    <div className="flex flex-row overflow-x-auto justify-around bg-white/10 backdrop-blur-md md:p-4 p-1 rounded-xl shadow-md text-white text-md min-w-full">
+    <div className="flex flex-row justify-around bg-white/10 backdrop-blur-md md:p-4 rounded-xl shadow-md text-white text-md w-full">
       {weatherInfo.map((forecast, index) => {
         const date = new Date(forecast.dt_txt);
         const day = date.toLocaleDateString("fr-FR", { weekday: "short" }); // jour abrégé
@@ -53,7 +53,7 @@ const WeatherForecast = ({ weatherInfo }) => {
         return (
           <div
             key={index}
-            className="flex flex-col items-center rounded-lg lg:p-4 p-2 min-w-1/6"
+            className="flex flex-col items-center rounded-lg lg:p-4 py-2 min-w-1/6"
           >
             <span
               className="font-semibold xl:text-xl
@@ -68,13 +68,13 @@ const WeatherForecast = ({ weatherInfo }) => {
               lg:text-md
               md:text-sm
               sm:text-xs
-              text-xs">
+              text-xs hidden md:block">
               {hours}h
               </span>
             <img
               src={iconSrc}
               alt={translatedDescription}
-              className="xl:w-35 xl:h-35 my-2 object-contain
+              className="xl:w-35 xl:h-35 md:my-2 object-contain
               lg:w-30 lg:h-30
               md:w-25 md:h-25
               sm:w-20 sm:h-20
@@ -90,7 +90,8 @@ const WeatherForecast = ({ weatherInfo }) => {
             <span className="xl:text-md text-center
               lg:text-sm
               md:text-xs
-              sm:text-xs
+              md:block
+              hidden
               text-[10px]">
             {translatedDescription}
             </span>
