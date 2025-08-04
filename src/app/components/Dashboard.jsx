@@ -147,7 +147,7 @@ function Dashboard({ selectedCity, onWeatherChange }) {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="w-full xl:text-2xl md:h-12 h-10 rounded-xl backdrop-blur-md shadow-md
+                className="w-full xl:text-2xl md:h-12 h-10 rounded-xl backdrop-blur-md shadow-md placeholder:text-white/70
                 lg:text-xl
                 md:text-lg
                 text-sm"

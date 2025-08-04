@@ -47,7 +47,6 @@ const WeatherCard = ({ weatherInfo }) => {
           className="xl:text-5xl font-semilight
             lg:text-4xl
             md:text-3xl
-            sm:text-2xl
             text-2xl"
         >
           {weatherInfo.location}
@@ -57,7 +56,6 @@ const WeatherCard = ({ weatherInfo }) => {
             className="xl:text-8xl font-extralight
         lg:text-7xl
         md:text-6xl
-        sm:text-5xl
         text-7xl"
           >
             {weatherInfo.temp}
@@ -65,10 +63,9 @@ const WeatherCard = ({ weatherInfo }) => {
           <span className="absolute text-5xl top-1.5 -right-5">°</span>
         </div>
         <p
-          className="xl:text-xl text-gray-50 mt-2 font-light tracking-wide
+          className="xl:text-xt mt-2 font-medium tracking-wide text-white opacity-80 text-clip
             lg:text-lg
             md:text-md
-            sm:text-sm
             text-xs"
         >
           {translatedDescription}

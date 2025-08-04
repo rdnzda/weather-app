@@ -60,25 +60,18 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
         <>
           {/* Infos Ville + Description */}
           <div className="flex flex-col">
-            <span className="text-lg font-semibold">
+            <span className="text-sm md:text-xl font-semibold">
               {weather?.location || city}
             </span>
             {translatedDesc && (
-              <span className="text-sm text-white/70">{translatedDesc}</span>
+              <span className="text-xs md:text-lg text-white/70">{translatedDesc}</span>
             )}
           </div>
 
           {/* Température + Icône + Menu */}
           <div className="flex items-center gap-4 relative">
-            {iconSrc && (
-              <img
-                src={iconSrc}
-                alt="weather icon"
-                className="w-20 h-20 object-contain"
-              />
-            )}
-            <span className="text-3xl font-semibold">
-              {Math.round(weather.main.temp)}°C
+            <span className="text-xl md:text-3xl font-semibold">
+              {Math.round(weather.main.temp)}°
             </span>
 
             {/* Bouton menu */}
