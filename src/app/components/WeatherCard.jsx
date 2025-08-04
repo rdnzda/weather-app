@@ -17,9 +17,9 @@ const getWeatherIconSrc = (description) => {
 const translateDescription = (desc) => {
   const translations = {
     "clear sky": "Ciel dégagé",
-    "few clouds": "Quelques nuages",
-    "scattered clouds": "Nuages épars",
-    "broken clouds": "Nuages fragmentés",
+    "few clouds": "Nuages dispersés",
+    "scattered clouds": "Ciel nuageux",
+    "broken clouds": "Ciel partiellement nuageux",
     "overcast clouds": "Ciel couvert",
     "shower rain": "Averses",
     rain: "Pluie",
@@ -41,40 +41,41 @@ const WeatherCard = ({ weatherInfo }) => {
   console.log(weatherInfo);
 
   return (
-    <div className="flex md:flex-row md:justify-around sm:justify-around justify-between items-center md:bg-white/10 md:backdrop-blur-md xl:p-4 lg:p-3 md:p-2 sm:p-1 p-1 rounded-xl md:shadow-md text-white text-md min-w-full">
-      <div className="flex flex-col items-start md:gap-15 gap-5 sm:ml-5 ml-2 mt-5 mb-5">
-        <div className="flex flex-col items-start gap-2">
-          <h2
-            className="font-bold xl:text-5xl
+    <div className="flex md:flex-row md:justify-around sm:justify-around justify-center items-center md:bg-white/10 md:backdrop-blur-md xl:p-4 lg:p-3 md:p-2 sm:p-1 p-1 rounded-xl md:shadow-md text-white text-md min-w-full">
+      <div className="flex flex-col items-center justi gap-1">
+        <h2
+          className="xl:text-5xl font-semilight
             lg:text-4xl
             md:text-3xl
             sm:text-2xl
-            text-xl"
+            text-2xl"
+        >
+          {weatherInfo.location}
+        </h2>
+        <div className="relative flex flex-row items-center justify-center gap-1">
+          <h3
+            className="xl:text-8xl font-extralight
+        lg:text-7xl
+        md:text-6xl
+        sm:text-5xl
+        text-7xl"
           >
-            {weatherInfo.location}
-          </h2>
-          <p
-            className="xl:text-xl ml-0.5 text-gray-50
+            {weatherInfo.temp}
+          </h3>
+          <span className="absolute text-5xl top-1.5 -right-5">°</span>
+        </div>
+        <p
+          className="xl:text-xl text-gray-50 mt-2 font-light tracking-wide
             lg:text-lg
             md:text-md
             sm:text-sm
             text-xs"
-          >
-            {translatedDescription}
-          </p>
-        </div>
-        <h3
-          className="font-semibold xl:text-8xl
-        lg:text-7xl
-        md:text-6xl
-        sm:text-5xl
-        text-4xl"
         >
-          {weatherInfo.temp}°C
-        </h3>
+          {translatedDescription}
+        </p>
       </div>
 
-      <div className="flex flex-row items-center align-center sm:mr-5 mr-2">
+      <div className="flex flex-row items-center align-center sm:mr-5 mr-2 hidden md:block">
         <img
           src={getWeatherIconSrc(weatherInfo.description)}
           alt="weather icon"

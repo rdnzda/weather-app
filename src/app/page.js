@@ -36,7 +36,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative sm:h-screen w-full overflow-hidden">
+    <div className="relative sm:h-screen w-full h-screen overflow-hidden">
       {/* ✅ Background animé et flouté */}
       <div className={`absolute inset-0 z-0 ${bgClass} bg-cover bg-center blur-xs scale-110 transition-all duration-500`} />
 
@@ -45,8 +45,8 @@ export default function Home() {
 
       {/* ✅ Contenu principal */}
       <div className="relative z-20 flex flex-col sm:h-full w-full">
-        <main className="sm:flex-1 md:mt-15 md:mb-15 mt-12 mb-18 overflow-y-auto min-w-full">
-          <div className="flex sm:justify-center sm:items-center min-h-full p-4 sm:p-6">
+        <main className="flex-1 h-full items-center justify-center md:mt-15 md:mb-15 mt-12 mb-18 overflow-y-auto min-w-full">
+          <div className="flex justify-center items-center min-h-full p-4 sm:p-6">
             {currentTab === "weather" && (
               <Dashboard
                 selectedCity={selectedCity}
