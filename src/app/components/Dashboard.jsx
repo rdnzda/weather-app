@@ -57,7 +57,7 @@ function Dashboard({ selectedCity, onWeatherChange }) {
       const forecastData = await getForecast(lat, lon);
 
       const weatherData = {
-        location: `${name}, ${country}`,
+        location: `${name}`,
         temp: Math.round(weather.main.temp),
         description: weather.weather[0].description,
         icon: weather.weather[0].icon,

@@ -28,7 +28,7 @@ export default function Favorites({ onSelectCity, cities, setCities }) {
     for (const city of cities) {
       try {
         const { lat, lon, name, country } = await getCoordinatesFromCity(city);
-        const location = `${name}, ${country}`;
+        const location = `${name}`;
         const weather = await getWeather(lat, lon);
         allData[city] = { ...weather, location };
       } catch (err) {
