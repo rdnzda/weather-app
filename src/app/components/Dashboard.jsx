@@ -47,6 +47,36 @@ function Dashboard({ selectedCity, onWeatherChange }) {
     }
   };
 
+  const getWeatherAdvice = (description) => {
+    const desc = description.toLowerCase();
+
+    if (desc.includes("rain")) {
+      return "La pluie est au rendez-vous aujourd'hui. Pensez à prendre un parapluie ou une veste pour rester bien au sec ☔.";
+    }
+
+    if (desc.includes("clear")) {
+      return "Le ciel est dégagé et le soleil brille. C’est une belle occasion pour sortir profiter du beau temps ☀️.";
+    }
+
+    if (desc.includes("cloud")) {
+      return "Le ciel est couvert de nuages. L’ambiance est calme, parfaite pour une promenade tranquille ou un moment cosy à la maison.";
+    }
+
+    if (desc.includes("snow")) {
+      return "La neige tombe ! Couvrez-vous bien et faites attention en vous déplaçant. Pourquoi ne pas en profiter pour une boisson chaude ? ❄️";
+    }
+
+    if (desc.includes("thunder")) {
+      return "Des orages sont annoncés. Restez à l'abri autant que possible, et évitez de sortir sans nécessité ⚡.";
+    }
+
+    if (desc.includes("fog") || desc.includes("mist")) {
+      return "Un brouillard dense enveloppe l'extérieur. La visibilité est réduite, alors soyez prudent si vous devez sortir.";
+    }
+
+    return "Quel que soit le temps, prenez soin de vous et adaptez votre journée à la météo du moment 🌤️.";
+  };
+
   const fetchWeather = async (cityName) => {
     try {
       setLoading(true);
@@ -156,7 +186,10 @@ function Dashboard({ selectedCity, onWeatherChange }) {
           </div>
           <div className="flex flex-col sm:gap-5 gap-7 items-center min-w-full">
             <WeatherCard weatherInfo={weatherInfo} />
-            <WeatherForecast weatherInfo={forecast} />
+            <WeatherForecast
+              weatherInfo={forecast}
+              weatherAdvice={getWeatherAdvice(weatherInfo.description)}
+            />
             <WeatherDetails weatherInfo={weatherInfo} />
           </div>
         </>

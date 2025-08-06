@@ -17,9 +17,9 @@ const getWeatherIconSrc = (description) => {
 const translateDescription = (desc) => {
   const translations = {
     "clear sky": "Ciel dégagé",
-    "few clouds": "Quelques nuages",
-    "scattered clouds": "Nuages épars",
-    "broken clouds": "Nuages fragmentés",
+    "few clouds": "Nuages dispersés",
+    "scattered clouds": "Ciel nuageux",
+    "broken clouds": "Ciel partiellement nuageux",
     "overcast clouds": "Ciel couvert",
     "shower rain": "Averses",
     "thunderstorm with heavy rain": "Orage avec forte pluie",
@@ -59,21 +59,47 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
       {weather ? (
         <>
           {/* Infos Ville + Description */}
-          <div className="flex flex-col">
-            <span className="text-sm md:text-xl font-semibold">
-              {weather?.location || city}
-            </span>
-            {translatedDesc && (
-              <span className="text-xs md:text-lg text-white/70">{translatedDesc}</span>
+          <div className="ml-2 flex flex-row justify-between items-center max-w-10xl w-full gap-5">
+            <div className="flex flex-col items-start gap-1">
+              <h2
+                className="font-semilight
+              sm:text-2xl
+              text-xl"
+              >
+                {weather?.location || city}
+              </h2>
+              <div className="relative flex flex-row items-center justify-center gap-1">
+                <h3
+                  className="font-extralight
+              lg:text-7xl
+              md:text-6xl
+              text-5xl"
+                >
+                  {Math.round(weather.main.temp)}
+                </h3>
+                <span className="absolute text-5xl top-1.5 -right-5">°</span>
+              </div>
+              {translatedDesc && (
+                <p
+                  className="mt-2 font-medium tracking-wide text-white opacity-80 text-clip
+              md:text-lg
+              sm:text-md"
+                >
+                  {translatedDesc}
+                </p>
+              )}
+            </div>
+            {iconSrc && (
+              <img
+                src={iconSrc}
+                alt="weather icon"
+                className="object-contain
+                w-30 h-30"
+              />
             )}
           </div>
-
           {/* Température + Icône + Menu */}
           <div className="flex items-center gap-4 relative">
-            <span className="text-xl md:text-3xl font-semibold">
-              {Math.round(weather.main.temp)}°
-            </span>
-
             {/* Bouton menu */}
             <div className="relative pt-2 cursor-pointer">
               <button
@@ -92,7 +118,11 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
                 onClick={(e) => e.stopPropagation()}
                 className={`absolute right-0 top-full mt-2 bg-amber-900 text-white rounded-md shadow-lg z-10 w-40
                   transition-transform transition-opacity duration-300
-                  ${menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}
+                  ${
+                    menuOpen
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 -translate-y-2 pointer-events-none"
+                  }
                 `}
                 aria-hidden={!menuOpen}
               >

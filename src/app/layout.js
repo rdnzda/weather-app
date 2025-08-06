@@ -20,7 +20,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body className={`${inter.variable} ${mySoul.variable} min-h-[100dvh] backdrop-blur-sm`}>
         {children}
       </body>
