@@ -83,7 +83,8 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
                 <p
                   className="mt-2 font-medium tracking-wide text-white opacity-80 text-clip
               md:text-lg
-              sm:text-md"
+              sm:text-md
+              text-sm"
                 >
                   {translatedDesc}
                 </p>
