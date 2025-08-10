@@ -1,10 +1,38 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Droplets, Wind, ThermometerSun, GaugeCircle } from "lucide-react";
+import { getTemperatureUnit } from "@/lib/temperature";
 
 const WeatherDetails = ({ weatherInfo }) => {
+  const [temperatureUnit, setTemperatureUnit] = useState("celsius");
+  
+  // Écouter les changements d'unité de température
+  useEffect(() => {
+    const updateUnit = () => {
+      setTemperatureUnit(getTemperatureUnit());
+    };
+    
+    // Initialiser l'unité
+    updateUnit();
+    
+    // Écouter les changements
+    window.addEventListener("temperatureUnitChanged", updateUnit);
+    
+    return () => {
+      window.removeEventListener("temperatureUnitChanged", updateUnit);
+    };
+  }, []);
+
   if (!weatherInfo || !weatherInfo.main || !weatherInfo.wind) return null;
 
   const { feels_like, humidity, pressure } = weatherInfo.main;
   const windSpeed = weatherInfo.wind.speed;
+
+  // Convertir la température ressentie selon l'unité choisie
+  const feelsLikeTemp = temperatureUnit === "fahrenheit" 
+    ? Math.round((feels_like * 9/5) + 32)
+    : Math.round(feels_like);
 
   return (
     <div className="bg-white/10 backdrop-blur-md xl:p-4 lg:p-3 md:p-2 sm:p-1 p-1 rounded-xl shadow-md text-white w-full xl:pt-10 xl:pb-10 lg:pt-8 lg:pb-8 md:pt-6 md:pb-6 sm:pt-4 sm:pb-4 pt-4 pb-4">
@@ -38,7 +66,7 @@ const WeatherDetails = ({ weatherInfo }) => {
           sm:text-lg
           text-xs"
           >
-            {Math.round(feels_like)}°C
+            {feelsLikeTemp}°
           </p>
         </div>
 

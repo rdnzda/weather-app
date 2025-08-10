@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import {
   getCoordinatesFromCity,
   getWeather,
@@ -11,16 +12,20 @@ import AnimatedInput from "@/blocks/Animations/AnimatedContent/AnimatedInput";
 import WeatherCard from "./WeatherCard";
 import WeatherForecast from "./WeatherForecast";
 import WeatherDetails from "./WeatherDetails";
+import CityNotFound from "./CityNotFound";
 
 function Dashboard({ selectedCity, onWeatherChange }) {
   const [city, setCity] = useState("");
   const [weatherInfo, setWeatherInfo] = useState(null);
   const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchedCity, setSearchedCity] = useState("");
 
   const fetchWeatherByCoords = async (lat, lon) => {
     try {
       setLoading(true);
+      setError(null);
       const weather = await getWeather(lat, lon);
       const forecastData = await getForecast(lat, lon);
 
@@ -41,6 +46,7 @@ function Dashboard({ selectedCity, onWeatherChange }) {
       console.error("Erreur météo par coordonnées :", err);
       setWeatherInfo(null);
       setForecast([]);
+      setError({ type: 'coords', message: 'Impossible de récupérer la météo pour cette localisation' });
       if (onWeatherChange) onWeatherChange(null);
     } finally {
       setLoading(false);
@@ -80,6 +86,9 @@ function Dashboard({ selectedCity, onWeatherChange }) {
   const fetchWeather = async (cityName) => {
     try {
       setLoading(true);
+      setError(null);
+      setSearchedCity(cityName);
+      
       const { lat, lon, name, country } = await getCoordinatesFromCity(
         cityName
       );
@@ -103,6 +112,7 @@ function Dashboard({ selectedCity, onWeatherChange }) {
       console.error("Erreur météo :", err);
       setWeatherInfo(null);
       setForecast([]);
+      setError({ type: 'city', message: 'Ville introuvable', searchedCity: cityName });
       if (onWeatherChange) onWeatherChange(null);
     } finally {
       setLoading(false);
@@ -145,21 +155,46 @@ function Dashboard({ selectedCity, onWeatherChange }) {
   const handleClearWeather = () => {
     setWeatherInfo(null);
     setForecast([]);
+    setError(null);
     setCity("Paris");
     if (onWeatherChange) onWeatherChange(null);
   };
 
+  const handleRetrySearch = () => {
+    if (searchedCity) {
+      fetchWeather(searchedCity);
+    }
+  };
+
+  const handleNewSearch = (newCityName) => {
+    setCity("");
+    fetchWeather(newCityName);
+  };
+
   return (
-    <div className="flex flex-col w-full max-w-7xl sm:gap-6 gap-10 items-center">
+    <div className="flex flex-col w-full max-w-7xl gap-6 sm:gap-8 items-center px-2 sm:px-4">
       {loading ? (
-        <img
-          src="/images/animated/thunder.svg"
-          alt="weather icon"
-          className="w-[300px] h-[300px] object-contain"
-        />
+        <div className="flex flex-col items-center gap-4 py-8 animate-fade-in-scale">
+          <img
+            src="/images/animated/thunder.svg"
+            alt="weather icon"
+            className="w-48 h-48 sm:w-72 sm:h-72 lg:w-80 lg:h-80 object-contain"
+          />
+          <p className="text-white/70 text-base sm:text-lg font-light">
+            Chargement de la météo...
+          </p>
+        </div>
+      ) : error?.type === 'city' ? (
+        <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <CityNotFound 
+            onRetry={handleRetrySearch}
+            onNewSearch={handleNewSearch}
+            searchedCity={error.searchedCity}
+          />
+        </div>
       ) : weatherInfo ? (
-        <>
-          <div className="input-container min-w-full flex flex-row items-center gap-2">
+        <div className="w-full animate-slide-in-top">
+          <div className="input-container w-full flex flex-row items-center gap-2">
             <AnimatedInput
               distance={200}
               direction="vertical"
@@ -172,19 +207,22 @@ function Dashboard({ selectedCity, onWeatherChange }) {
               threshold={0.1}
               delay={0}
             >
-              <Input
-                placeholder="Rechercher une ville"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="w-full xl:text-2xl md:h-12 h-10 rounded-xl backdrop-blur-md shadow-md placeholder:text-white/70
-                lg:text-xl
-                md:text-lg
-                text-sm"
-              />
+              <div className="relative w-full">
+                <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-white/60 z-10" />
+                <Input
+                  placeholder="Rechercher une ville..."
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-white placeholder:text-white/50 bg-white/10 border border-white/20 rounded-xl sm:rounded-2xl 
+                             focus:border-white/50 focus:ring-2 focus:ring-white/20 focus:bg-white/15
+                             transition-all duration-200 text-base sm:text-lg font-light backdrop-blur-md shadow-lg
+                             hover:bg-white/15 hover:border-white/30"
+                />
+              </div>
             </AnimatedInput>
           </div>
-          <div className="flex flex-col sm:gap-5 gap-7 items-center min-w-full">
+          <div className="flex flex-col mt-3 md:mt-6 gap-4 sm:gap-6 items-center w-full">
             <WeatherCard weatherInfo={weatherInfo} />
             <WeatherForecast
               weatherInfo={forecast}
@@ -192,11 +230,26 @@ function Dashboard({ selectedCity, onWeatherChange }) {
             />
             <WeatherDetails weatherInfo={weatherInfo} />
           </div>
-        </>
+        </div>
       ) : (
-        <p className="text-red-500 text-sm">
-          Impossible de récupérer la météo.
-        </p>
+        <div className="py-8 w-full max-w-md animate-slide-in-bottom">
+          <div className="bg-red-500/10 backdrop-blur-md rounded-xl p-6 border border-red-400/30 text-center">
+            <p className="text-red-400 text-base sm:text-lg font-light mb-4">
+              ❌ Impossible de récupérer la météo
+            </p>
+            {error?.message && (
+              <p className="text-red-300/70 text-sm mb-4">
+                {error.message}
+              </p>
+            )}
+            <button
+              onClick={() => fetchWeather("Paris")}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 active:scale-95"
+            >
+              Charger Paris par défaut
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

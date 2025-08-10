@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEllipsisV, FaTrash } from "react-icons/fa";
+import { getTemperatureUnit } from "@/lib/temperature";
 
 // Icônes & traduction
 const getWeatherIconSrc = (description) => {
@@ -37,6 +38,24 @@ const translateDescription = (desc) => {
 
 function Favorite({ city, weather, onSelectCity, removeCity }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [temperatureUnit, setTemperatureUnit] = useState("celsius");
+  
+  // Écouter les changements d'unité de température
+  useEffect(() => {
+    const updateUnit = () => {
+      setTemperatureUnit(getTemperatureUnit());
+    };
+    
+    // Initialiser l'unité
+    updateUnit();
+    
+    // Écouter les changements
+    window.addEventListener("temperatureUnitChanged", updateUnit);
+    
+    return () => {
+      window.removeEventListener("temperatureUnitChanged", updateUnit);
+    };
+  }, []);
 
   const handleClick = () => {
     if (onSelectCity) onSelectCity(city);
@@ -50,42 +69,36 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
     ? translateDescription(weather.weather[0].description)
     : null;
 
+  // Convertir la température selon l'unité choisie
+  const temp = weather?.main?.temp ? (
+    temperatureUnit === "fahrenheit" 
+      ? Math.round((weather.main.temp * 9/5) + 32)
+      : Math.round(weather.main.temp)
+  ) : null;
+  const tempUnit = temperatureUnit === "fahrenheit" ? "F" : "C";
+
   return (
     <li
-      className={`relative flex justify-between items-center px-6 py-4 rounded-xl bg-white/10 backdrop-blur-md shadow-md hover:bg-white/20 cursor-pointer select-none border-none
+      className={`relative flex justify-between items-center px-3 sm:px-6 py-3 sm:py-4 rounded-lg sm:rounded-xl bg-white/10 backdrop-blur-md shadow-md hover:bg-white/20 cursor-pointer select-none border-none transition-all duration-200 active:scale-[0.98]
         ${menuOpen ? "overflow-visible" : "overflow-hidden"}`}
       onClick={handleClick}
     >
       {weather ? (
         <>
           {/* Infos Ville + Description */}
-          <div className="ml-2 flex flex-row justify-between items-center max-w-10xl w-full gap-5">
-            <div className="flex flex-col items-start gap-1">
-              <h2
-                className="font-semilight
-              sm:text-2xl
-              text-xl"
-              >
+          <div className="ml-1 sm:ml-2 flex flex-row justify-between items-center w-full gap-3 sm:gap-5">
+            <div className="flex flex-col items-start gap-1 min-w-0 flex-1">
+              <h2 className="font-semilight text-lg sm:text-xl lg:text-2xl truncate w-full">
                 {weather?.location || city}
               </h2>
-              <div className="relative flex flex-row items-center justify-center gap-1">
-                <h3
-                  className="font-extralight
-              lg:text-7xl
-              md:text-6xl
-              text-5xl"
-                >
-                  {Math.round(weather.main.temp)}
+              <div className="relative flex flex-row items-center justify-start gap-1">
+                <h3 className="font-extralight text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+                  {temp}
                 </h3>
-                <span className="absolute text-5xl top-1.5 -right-5">°</span>
+                <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl -mt-1 sm:-mt-2">°{tempUnit}</span>
               </div>
               {translatedDesc && (
-                <p
-                  className="mt-2 font-medium tracking-wide text-white opacity-80 text-clip
-              md:text-lg
-              sm:text-md
-              text-sm"
-                >
+                <p className="mt-1 sm:mt-2 font-medium tracking-wide text-white opacity-80 text-xs sm:text-sm md:text-base lg:text-lg truncate w-full">
                   {translatedDesc}
                 </p>
               )}
@@ -94,35 +107,34 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
               <img
                 src={iconSrc}
                 alt="weather icon"
-                className="object-contain
-                w-30 h-30"
+                className="object-contain w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 flex-shrink-0"
               />
             )}
           </div>
           {/* Température + Icône + Menu */}
           <div className="flex items-center gap-4 relative">
-            {/* Bouton menu */}
+            {/* Bouton menu moderne */}
             <div className="relative pt-2 cursor-pointer">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   setMenuOpen((prev) => !prev);
                 }}
-                className="text-white hover:text-white/70 cursor-pointer"
+                className="flex items-center justify-center w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl backdrop-blur-sm border border-white/20 hover:border-white/30 transition-all duration-200 transform hover:scale-105"
                 aria-haspopup="true"
                 aria-expanded={menuOpen}
               >
-                <FaEllipsisV size={20} />
+                <FaEllipsisV className="w-4 h-4 text-white/80" />
               </button>
 
               <div
                 onClick={(e) => e.stopPropagation()}
-                className={`absolute right-0 top-full mt-2 bg-amber-900 text-white rounded-md shadow-lg z-10 w-40
-                  transition-transform transition-opacity duration-300
+                className={`absolute right-0 top-full mt-3 bg-white/10 backdrop-blur-md text-white rounded-2xl shadow-2xl border border-white/20 z-10 w-12 h-12 overflow-hidden
+                  transition-all duration-300 ease-out
                   ${
                     menuOpen
-                      ? "opacity-100 translate-y-0"
-                      : "opacity-0 -translate-y-2 pointer-events-none"
+                      ? "opacity-100 translate-y-0 scale-100"
+                      : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
                   }
                 `}
                 aria-hidden={!menuOpen}
@@ -132,12 +144,12 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
                     removeCity(city);
                     setMenuOpen(false);
                   }}
-                  className="flex items-center justify-center gap-3 px-4 py-4 w-full h-full
-                    hover:bg-gray-100 hover:text-black 
-                    rounded-md transition-all duration-200 ease-in-out"
+                  className="flex items-center justify-center w-full h-full
+                    hover:bg-red-500/30 hover:backdrop-blur-md hover:cursor-pointer
+                    transition-all duration-200 ease-in-out
+                    text-white/90 hover:text-red-300"
                 >
-                  <FaTrash size={14} />
-                  Supprimer
+                  <FaTrash className="w-4 h-4 text-red-400 hover:text-red-300" />
                 </button>
               </div>
             </div>

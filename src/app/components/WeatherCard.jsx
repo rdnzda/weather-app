@@ -1,5 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { formatTemperature, getTemperatureUnit } from "@/lib/temperature";
+
 const getWeatherIconSrc = (description) => {
   const desc = description.toLowerCase();
 
@@ -37,8 +40,32 @@ const translateDescription = (desc) => {
 };
 
 const WeatherCard = ({ weatherInfo }) => {
+  const [temperatureUnit, setTemperatureUnit] = useState("celsius");
+  
+  // Écouter les changements d'unité de température
+  useEffect(() => {
+    const updateUnit = () => {
+      setTemperatureUnit(getTemperatureUnit());
+    };
+    
+    // Initialiser l'unité
+    updateUnit();
+    
+    // Écouter les changements
+    window.addEventListener("temperatureUnitChanged", updateUnit);
+    
+    return () => {
+      window.removeEventListener("temperatureUnitChanged", updateUnit);
+    };
+  }, []);
+
   const translatedDescription = translateDescription(weatherInfo.description);
   console.log(weatherInfo);
+
+  // Extraire la température et l'unité
+  const tempValue = temperatureUnit === "fahrenheit" 
+    ? Math.round((weatherInfo.temp * 9/5) + 32)
+    : weatherInfo.temp;
 
   return (
     <div className="flex md:flex-row md:justify-around sm:justify-around justify-center items-center md:bg-white/10 md:backdrop-blur-md xl:p-4 lg:p-3 md:p-2 sm:p-1 p-1 rounded-xl md:shadow-md text-white text-md min-w-full">
@@ -58,7 +85,7 @@ const WeatherCard = ({ weatherInfo }) => {
         md:text-6xl
         text-7xl"
           >
-            {weatherInfo.temp}
+            {tempValue}
           </h3>
           <span className="absolute text-5xl top-1.5 -right-5">°</span>
         </div>
@@ -72,7 +99,7 @@ const WeatherCard = ({ weatherInfo }) => {
         </p>
       </div>
 
-      <div className="flex flex-row items-center align-center sm:mr-5 mr-2 hidden md:block">
+      <div className="md:flex flex-row items-center align-center sm:mr-5 mr-2 hidden">
         <img
           src={getWeatherIconSrc(weatherInfo.description)}
           alt="weather icon"

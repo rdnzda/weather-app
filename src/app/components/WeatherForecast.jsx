@@ -1,5 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { getTemperatureUnit } from "@/lib/temperature";
+
 // Traduction des descriptions météo en français
 const translateDescription = (desc) => {
   const translations = {
@@ -42,6 +45,24 @@ const getWeatherIconSrc = (description) => {
 };
 
 const WeatherForecast = ({ weatherInfo, weatherAdvice }) => {
+  const [temperatureUnit, setTemperatureUnit] = useState("celsius");
+  
+  // Écouter les changements d'unité de température
+  useEffect(() => {
+    const updateUnit = () => {
+      setTemperatureUnit(getTemperatureUnit());
+    };
+    
+    // Initialiser l'unité
+    updateUnit();
+    
+    // Écouter les changements
+    window.addEventListener("temperatureUnitChanged", updateUnit);
+    
+    return () => {
+      window.removeEventListener("temperatureUnitChanged", updateUnit);
+    };
+  }, []);
   return (
     <div className="flex flex-col bg-white/10 backdrop-blur-md rounded-xl shadow-md text-white text-md w-full">
       <div className="flex flex-row justify-around md:p-4 border-b border-white/40 shadow-md text-white text-md w-full">
@@ -56,7 +77,9 @@ const WeatherForecast = ({ weatherInfo, weatherAdvice }) => {
           const hours = date.getHours().toString().padStart(2, "0");
 
           const description = forecast.weather[0].description;
-          const temp = Math.round(forecast.main.temp);
+          const temp = temperatureUnit === "fahrenheit" 
+            ? Math.round((forecast.main.temp * 9/5) + 32)
+            : Math.round(forecast.main.temp);
           const iconSrc = getWeatherIconSrc(description);
           const translatedDescription = translateDescription(description);
 
@@ -90,7 +113,7 @@ const WeatherForecast = ({ weatherInfo, weatherAdvice }) => {
               sm:text-sm
               text-xs"
               >
-                {temp}°C
+                {temp}°
               </span>
               <span
                 className="xl:text-md text-center
