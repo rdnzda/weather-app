@@ -1,149 +1,96 @@
 # 🌤️ Weather App
 
-Une application météo moderne et interactive construite avec Next.js 15 et React 19, offrant des prévisions météorologiques en temps réel avec une interface utilisateur élégante et des animations fluides.
+A modern, interactive weather app built with Next.js 15 and React 19. It shows real-time weather and forecasts in a clean interface with smooth animations.
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-- 🌍 **Recherche par ville** - Trouvez la météo de n'importe quelle ville dans le monde
-- 📍 **Géolocalisation automatique** - Météo locale détectée automatiquement
-- 📊 **Prévisions 5 jours** - Planifiez votre semaine avec les prévisions détaillées
-- ⭐ **Système de favoris** - Sauvegardez vos villes préférées pour un accès rapide
-- 🎨 **Arrière-plans dynamiques** - L'interface s'adapte aux conditions météorologiques actuelles
-- 📱 **Design responsive** - Optimisé pour mobile et desktop
-- ✨ **Animations fluides** - Interface moderne avec Framer Motion et GSAP
-- 🌡️ **Détails complets** - Température, humidité, vent, pression et plus
+- 🌍 **City search**: find the weather for any city in the world
+- 📍 **Automatic geolocation**: local weather detected on load
+- 📊 **5-day forecast**: detailed forecasts to plan the week
+- ⭐ **Favorites**: save cities for quick access
+- 🎨 **Dynamic backgrounds**: the interface adapts to the current weather
+- 📱 **Responsive design**: works on mobile and desktop
+- ✨ **Smooth animations**: Framer Motion and GSAP
+- 🌡️ **Full details**: temperature, humidity, wind, pressure and more
 
-## 🛠️ Technologies utilisées
+## 🛠️ Tech stack
 
-- **Frontend**: Next.js 15, React 19, TailwindCSS 4
+- **Frontend**: Next.js 15, React 19, Tailwind CSS 4
 - **Animations**: Framer Motion, GSAP
-- **UI Components**: HeroUI, Radix UI, Lucide React
-- **API**: OpenWeatherMap API
-- **Styling**: TailwindCSS avec support des animations personnalisées
+- **UI components**: HeroUI, Radix UI, Lucide React
+- **API**: OpenWeatherMap
 - **Icons**: React Icons, Weather React Icons
 
-## 🚀 Installation et démarrage
+## 🚀 Getting started
 
-1. **Clonez le repository**
-```bash
-git clone <votre-repo-url>
-cd weather-app
-```
+1. **Clone the repository**
 
-2. **Installez les dépendances**
-```bash
-npm install
-# ou
-yarn install
-# ou
-pnpm install
-```
+   ```bash
+   git clone https://github.com/rdnzda/weather-app.git
+   cd weather-app
+   ```
 
-3. **Configurez les variables d'environnement**
-Créez un fichier `.env.local` à la racine du projet :
-```env
-NEXT_PUBLIC_API_KEY=your_openweathermap_api_key
-```
+2. **Install the dependencies**
 
-> 📝 **Note**: Obtenez votre clé API gratuite sur [OpenWeatherMap](https://openweathermap.org/api)
+   ```bash
+   npm install
+   ```
 
-4. **Lancez le serveur de développement**
-```bash
-npm run dev
-# ou
-yarn dev
-# ou
-pnpm dev
-```
+3. **Set the environment variable**: create a `.env.local` file at the project root (never commit it):
 
-5. **Ouvrez votre navigateur**
-Rendez-vous sur [http://localhost:3000](http://localhost:3000) pour voir l'application.
+   ```env
+   NEXT_PUBLIC_API_KEY=your_openweathermap_api_key
+   ```
 
-## 📁 Structure du projet
+   You can get a free API key from [OpenWeatherMap](https://openweathermap.org/api).
 
-```
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000).
+
+## 📁 Project structure
+
+```text
 src/
 ├── app/
-│   ├── components/          # Composants React de l'application
-│   │   ├── Dashboard.jsx    # Composant principal météo
-│   │   ├── WeatherCard.jsx  # Carte météo actuelle
-│   │   ├── WeatherForecast.jsx # Prévisions 5 jours
-│   │   ├── Favorites.jsx    # Gestion des favoris
+│   ├── components/            # App components
+│   │   ├── Dashboard.jsx      # Main weather view
+│   │   ├── WeatherCard.jsx    # Current weather card
+│   │   ├── WeatherForecast.jsx # 5-day forecast
+│   │   ├── Favorites.jsx      # Saved cities
 │   │   └── ...
 │   ├── services/
-│   │   └── api.js          # Services API OpenWeatherMap
-│   ├── globals.css         # Styles globaux
-│   └── page.js            # Page principale
-├── components/ui/          # Composants UI réutilisables
-├── lib/                   # Utilitaires et helpers
-└── blocks/               # Blocs d'animations personnalisés
+│   │   └── api.js             # OpenWeatherMap API calls
+│   ├── globals.css
+│   └── page.js
+├── components/ui/             # Reusable UI components
+├── lib/                       # Utilities
+└── blocks/                    # Custom animation blocks
 ```
 
-## 🎨 Personnalisation
+## 🎨 Customization
 
-### Arrière-plans météo
-Les arrière-plans se trouvent dans `public/images/backgrounds/` et changent automatiquement selon les conditions :
-- `clear.jpg` - Temps clair
-- `cloudy.jpg` - Nuageux
-- `rainy.jpg` - Pluvieux
-- `snowy.jpg` - Neigeux
-- `thunderstorm.jpg` - Orages
-- `fog.jpg` - Brouillard
+Backgrounds live in `public/images/backgrounds/` and change automatically with the weather: `clear.jpg`, `cloudy.jpg`, `rainy.jpg`, `snowy.jpg`, `thunderstorm.jpg`, `fog.jpg`.
 
-### Icônes météo
-Icônes animées disponibles dans `public/images/animated/` et `public/images/static/`
+Animated and static weather icons are in `public/images/animated/` and `public/images/static/`.
 
-## 🔧 Scripts disponibles
+## 🔧 Scripts
 
 ```bash
-npm run dev          # Démarrage en mode développement
-npm run build        # Build de production
-npm run start        # Démarrage du serveur de production
-npm run lint         # Vérification du code avec ESLint
+npm run dev     # development server
+npm run build   # production build
+npm run start   # production server
+npm run lint    # ESLint
 ```
 
-## 🌐 Déploiement
+## 🌐 Deployment
 
-### Vercel (Recommandé)
-1. Connectez votre repository GitHub à [Vercel](https://vercel.com)
-2. Ajoutez votre `NEXT_PUBLIC_API_KEY` dans les variables d'environnement
-3. Déployez automatiquement
+The app runs on any platform that supports Next.js. On [Vercel](https://vercel.com): connect the repository, add `NEXT_PUBLIC_API_KEY` to the environment variables, and deploy.
 
-### Autres plateformes
-L'application peut être déployée sur toute plateforme supportant Next.js :
-- Netlify
-- Railway
-- Heroku
-- AWS Amplify
+## 📄 License
 
-## 📱 Fonctionnalités détaillées
-
-### Navigation
-- **Météo** : Affichage principal avec recherche et prévisions
-- **Favoris** : Gestion des villes sauvegardées
-- **Paramètres** : Options de l'application
-
-### Météo intelligente
-- Détection automatique de la localisation
-- Conseils personnalisés selon la météo
-- Interface adaptative aux conditions
-- Données en temps réel
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à :
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/nouvelle-fonctionnalite`)
-3. Commit vos changements (`git commit -m 'Ajout nouvelle fonctionnalité'`)
-4. Push sur la branche (`git push origin feature/nouvelle-fonctionnalite`)
-5. Ouvrir une Pull Request
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-## 🙏 Remerciements
-
-- [OpenWeatherMap](https://openweathermap.org/) pour l'API météo
-- [Vercel](https://vercel.com/) pour l'hébergement et Next.js
-- La communauté open source pour les outils fantastiques
+MIT. See [`LICENSE`](LICENSE). Weather data provided by [OpenWeatherMap](https://openweathermap.org/).
