@@ -57,33 +57,29 @@ const WeatherCard = ({ weatherInfo }) => {
   const unitLetter = temperatureUnit === "fahrenheit" ? "F" : "C";
 
   return (
-    <section aria-labelledby="current-city" className="min-w-0">
-      <h2
-        id="current-city"
-        className="font-display text-4xl font-medium leading-none tracking-tight text-fg sm:text-5xl break-words"
-      >
-        {weatherInfo.location}
-      </h2>
-
-      <div className="mt-6 flex items-end justify-between gap-5 sm:gap-8">
-        <p className="font-display tabular text-[7.5rem] font-light leading-[0.78] tracking-tight text-fg sm:text-[10rem] lg:text-[11.5rem]">
+    <section
+      aria-labelledby="current-city"
+      className="flex min-w-0 items-center justify-between gap-4 text-white [text-shadow:0_1px_2px_rgb(0_0_0/0.5),0_2px_16px_rgb(0_0_0/0.35)]"
+    >
+      <div className="min-w-0">
+        <h2
+          id="current-city"
+          className="break-words text-3xl font-semibold sm:text-5xl"
+        >
+          {weatherInfo.location}
+        </h2>
+        <p className="tabular -ml-1 mt-1 text-8xl font-extralight leading-none tracking-tighter sm:text-[9rem] lg:text-[10rem]">
           {tempValue}
-          <span className="align-top text-[0.4em] font-normal text-dim">
-            °{unitLetter}
-          </span>
+          <span className="align-top text-[0.4em] font-light">°{unitLetter}</span>
         </p>
-        <WeatherIcon
-          description={weatherInfo.description}
-          className="mb-1 h-20 w-20 shrink-0 text-sky sm:h-28 sm:w-28 lg:mr-4"
-          strokeWidth={1}
-        />
-      </div>
-
-      <div className="mt-6 border-t border-line pt-4">
-        <p className="text-lg font-medium text-fg sm:text-xl">
+        <p className="mt-2 text-lg font-medium sm:text-2xl">
           {translatedDescription}
         </p>
       </div>
+      <WeatherIcon
+        description={weatherInfo.description}
+        className="h-28 w-28 shrink-0 drop-shadow-[0_4px_16px_rgb(0_0_0/0.35)] sm:h-44 sm:w-44 lg:h-52 lg:w-52"
+      />
     </section>
   );
 };

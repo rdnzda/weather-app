@@ -64,57 +64,59 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
   const tempUnit = temperatureUnit === "fahrenheit" ? "F" : "C";
 
   return (
-    <li className="relative flex items-stretch border-b border-line">
+    <li className="panel relative flex items-stretch">
       <button
         type="button"
         onClick={handleClick}
-        className="group flex min-w-0 flex-1 items-center gap-4 py-4 pr-2 text-left cursor-pointer hover:bg-panel focus-visible:outline-offset-[-2px] sm:gap-6 sm:pl-2"
+        className="flex min-w-0 flex-1 items-center gap-3 rounded-l-2xl py-3 pl-4 pr-2 text-left transition-colors hover:bg-white/5 cursor-pointer focus-visible:outline-offset-[-2px] sm:gap-5 sm:pl-6"
       >
         <div className="min-w-0 flex-1">
-          <h2 className="truncate font-display text-2xl font-medium leading-tight text-fg sm:text-3xl">
+          <h2 className="truncate text-lg font-semibold text-white sm:text-2xl">
             {weather?.location || city}
           </h2>
-          <p className="mt-1 flex items-center gap-2 truncate text-sm text-dim sm:text-base">
-            {weather ? (
-              <>
-                {description && (
-                  <WeatherIcon description={description} className="h-4 w-4 shrink-0 text-sky" />
-                )}
-                {translatedDesc}
-              </>
-            ) : (
-              <span role="status">Chargement...</span>
-            )}
-          </p>
+          {weather ? (
+            <>
+              {temp !== null && (
+                <p className="tabular text-4xl font-extralight leading-tight text-white sm:text-5xl">
+                  {temp}
+                  <span className="align-top text-[0.5em] text-white/70">°{tempUnit}</span>
+                </p>
+              )}
+              {translatedDesc && (
+                <p className="truncate text-sm font-medium text-white/80 sm:text-base">
+                  {translatedDesc}
+                </p>
+              )}
+            </>
+          ) : (
+            <p role="status" className="text-sm text-white/70">Chargement...</p>
+          )}
         </div>
-        {weather && temp !== null && (
-          <p className="font-display tabular shrink-0 text-5xl font-light leading-none text-fg sm:text-6xl">
-            {temp}
-            <span className="align-top text-[0.45em] font-normal text-dim">°{tempUnit}</span>
-          </p>
+        {description && (
+          <WeatherIcon description={description} animated={false} className="h-16 w-16 shrink-0 sm:h-24 sm:w-24" />
         )}
       </button>
 
       {weather && (
-        <div className="relative flex items-center pl-1">
+        <div className="relative flex items-center pr-2 sm:pr-3">
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
               setMenuOpen((prev) => !prev);
             }}
-            className="flex h-11 w-11 items-center justify-center rounded-sm text-dim transition-colors hover:bg-panel hover:text-fg cursor-pointer"
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 bg-white/10 text-white/85 transition-colors hover:bg-white/20 cursor-pointer"
             aria-haspopup="true"
             aria-expanded={menuOpen}
             aria-label={`Options pour ${weather?.location || city}`}
           >
-            <EllipsisVertical className="h-5 w-5" aria-hidden="true" />
+            <EllipsisVertical className="h-4 w-4" aria-hidden="true" />
           </button>
 
           {menuOpen && (
             <div
               onClick={(e) => e.stopPropagation()}
-              className="absolute right-0 top-full z-10 -mt-2 border border-line-strong bg-panel"
+              className="absolute right-2 top-[calc(50%+1.5rem)] z-10 overflow-hidden rounded-lg border border-white/15 bg-[#0c1016] shadow-lg shadow-black/40"
             >
               <button
                 type="button"
@@ -122,7 +124,7 @@ function Favorite({ city, weather, onSelectCity, removeCity }) {
                   removeCity(city);
                   setMenuOpen(false);
                 }}
-                className="flex h-11 items-center gap-2 whitespace-nowrap px-4 text-sm font-medium text-danger transition-colors hover:bg-ink cursor-pointer"
+                className="flex h-11 items-center gap-2 whitespace-nowrap px-4 text-sm font-medium text-red-300 transition-colors hover:bg-red-500/20 cursor-pointer"
               >
                 <Trash2 className="h-4 w-4" aria-hidden="true" />
                 Supprimer

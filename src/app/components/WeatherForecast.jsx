@@ -72,32 +72,34 @@ const WeatherForecast = ({ weatherInfo, weatherAdvice }) => {
   const points = days.map((d, i) => `${xPct(i)},${yPct(d.temp)}`).join(" ");
 
   return (
-    <section aria-labelledby="forecast-title" className="w-full">
-      <p className="max-w-3xl border-l-2 border-sky pl-4 text-base leading-relaxed text-fg/90 sm:text-lg">
-        {weatherAdvice}
-      </p>
+    <section aria-labelledby="forecast-title" className="panel w-full overflow-hidden">
+      <div className="border-b border-white/10 px-5 py-4 sm:px-6">
+        <p className="max-w-[70ch] text-base font-light italic leading-relaxed text-white/90 sm:text-lg">
+          {weatherAdvice}
+        </p>
+      </div>
 
-      <div className="mt-10 border-b border-line pb-3">
-        <h2 id="forecast-title" className="text-sm font-semibold text-dim">
+      <div className="px-5 pt-4 sm:px-6">
+        <h2 id="forecast-title" className="text-sm font-semibold text-white/75">
           Prévisions à 12:00
         </h2>
       </div>
 
       {days.length > 0 && (
-        <div className="relative">
+        <div className="px-2 pb-2 sm:px-4">
           {/* Courbe des températures */}
-          <div className="relative h-36 sm:h-44" aria-hidden="true">
+          <div className="relative h-32 sm:h-40" aria-hidden="true">
             <svg
               className="absolute inset-0 h-full w-full overflow-visible"
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
             >
-              <line x1="0" x2="100" y1={yPct(max)} y2={yPct(max)} stroke="var(--line)" strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
-              <line x1="0" x2="100" y1={yPct(min)} y2={yPct(min)} stroke="var(--line)" strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
+              <line x1="0" x2="100" y1={yPct(max)} y2={yPct(max)} stroke="rgb(255 255 255 / 0.12)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />
+              <line x1="0" x2="100" y1={yPct(min)} y2={yPct(min)} stroke="rgb(255 255 255 / 0.12)" strokeDasharray="3 3" vectorEffect="non-scaling-stroke" />
               <polyline
                 points={points}
                 fill="none"
-                stroke="var(--accent)"
+                stroke="#7dd3fc"
                 strokeWidth="2"
                 strokeLinejoin="round"
                 strokeLinecap="round"
@@ -110,8 +112,8 @@ const WeatherForecast = ({ weatherInfo, weatherAdvice }) => {
                 className="absolute -translate-x-1/2 -translate-y-1/2"
                 style={{ left: `${xPct(i)}%`, top: `${yPct(d.temp)}%` }}
               >
-                <span className="block h-2.5 w-2.5 rounded-full border-2 border-sky bg-ink" />
-                <span className="font-display tabular absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 text-xl font-medium leading-none text-fg sm:text-2xl">
+                <span className="block h-2.5 w-2.5 rounded-full border-2 border-sky-300 bg-[#0c1016]" />
+                <span className="tabular absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 text-lg font-semibold leading-none text-white sm:text-xl">
                   {d.temp}°
                 </span>
               </div>
@@ -120,26 +122,25 @@ const WeatherForecast = ({ weatherInfo, weatherAdvice }) => {
 
           {/* Tableau jour par jour */}
           <ol
-            className="grid border-t border-line"
+            className="grid border-t border-white/10"
             style={{ gridTemplateColumns: `repeat(${days.length}, minmax(0, 1fr))` }}
           >
-            {days.map((d, i) => (
+            {days.map((d) => (
               <li
                 key={d.key}
-                className={`flex flex-col items-center gap-2 px-1 py-4 text-center ${
-                  i > 0 ? "border-l border-line" : ""
-                }`}
+                className="flex flex-col items-center gap-1 px-1 py-3 text-center"
               >
-                <span className="text-sm font-semibold capitalize text-fg sm:text-base">
+                <span className="text-sm font-semibold capitalize text-white sm:text-base">
                   {d.day}
                 </span>
                 <WeatherIcon
                   description={d.description}
                   label={d.translatedDescription}
-                  className="h-7 w-7 text-dim sm:h-8 sm:w-8"
+                  animated={false}
+                  className="h-12 w-12 sm:h-16 sm:w-16"
                 />
                 <span className="sr-only">{d.temp}°</span>
-                <span className="hidden text-xs leading-snug text-dim md:block lg:text-sm">
+                <span className="hidden text-xs leading-snug text-white/75 md:block lg:text-sm">
                   {d.translatedDescription}
                 </span>
               </li>

@@ -35,32 +35,30 @@ const WeatherDetails = ({ weatherInfo }) => {
     : Math.round(feels_like);
 
   const rows = [
-    { label: "Ressentie", value: feelsLikeTemp, unit: "°", Icon: ThermometerSun },
-    { label: "Humidité", value: humidity, unit: "%", Icon: Droplets },
-    { label: "Vent", value: windSpeed, unit: "m/s", Icon: Wind },
-    { label: "Pression", value: pressure, unit: "hPa", Icon: GaugeCircle },
+    { label: "Ressentie", value: feelsLikeTemp, unit: "°", Icon: ThermometerSun, color: "text-yellow-400" },
+    { label: "Humidité", value: humidity, unit: "%", Icon: Droplets, color: "text-blue-300" },
+    { label: "Vent", value: windSpeed, unit: "m/s", Icon: Wind, color: "text-sky-400" },
+    { label: "Pression", value: pressure, unit: "hPa", Icon: GaugeCircle, color: "text-purple-300" },
   ];
 
   return (
-    <section aria-labelledby="details-title" className="min-w-0 lg:border-l lg:border-line lg:pl-12">
-      <h2 id="details-title" className="text-sm font-semibold text-dim">
-        Qualité de l&apos;air
+    <section aria-labelledby="details-title" className="panel min-w-0 p-5 sm:p-6">
+      <h2 id="details-title" className="text-sm font-semibold text-white/75">
+        Conditions
       </h2>
-      <dl className="mt-3 grid grid-cols-2 border-t border-line lg:grid-cols-1">
-        {rows.map(({ label, value, unit, Icon }, i) => (
+      <dl className="mt-2 grid grid-cols-2">
+        {rows.map(({ label, value, unit, Icon, color }, i) => (
           <div
             key={label}
-            className={`flex flex-col gap-1 border-b border-line py-4 lg:flex-row lg:items-baseline lg:justify-between ${
-              i % 2 === 0 ? "pr-4 border-r lg:border-r-0 lg:pr-0" : "pl-4 lg:pl-0"
-            }`}
+            className={`py-3 sm:py-4 ${i % 2 === 0 ? "pr-3 border-r border-white/10" : "pl-4 sm:pl-5"} ${i < 2 ? "border-b border-white/10" : ""}`}
           >
-            <dt className="flex items-center gap-2 text-sm text-dim">
-              <Icon className="h-4 w-4" strokeWidth={1.6} aria-hidden="true" />
+            <dt className="flex items-center gap-2 text-sm text-white/75">
+              <Icon className={`h-5 w-5 ${color}`} aria-hidden="true" />
               {label}
             </dt>
-            <dd className="font-display tabular text-3xl font-medium leading-none text-fg sm:text-4xl">
+            <dd className="tabular mt-2 text-2xl font-semibold text-white sm:text-3xl">
               {value}
-              <span className={`${unit === "°" ? "" : "ml-1 "}text-base font-normal text-dim`}>{unit}</span>
+              <span className={`${unit === "°" ? "" : "ml-1 "}text-sm font-normal text-white/70`}>{unit}</span>
             </dd>
           </div>
         ))}

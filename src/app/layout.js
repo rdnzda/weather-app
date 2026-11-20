@@ -1,33 +1,27 @@
-import { Barlow, Barlow_Condensed } from "next/font/google";
+import { Inter, My_Soul } from "next/font/google";
 import "./globals.css";
 
-const barlow = Barlow({
-  variable: "--font-body",
-  weight: ["400", "500", "600"],
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const barlowCondensed = Barlow_Condensed({
-  variable: "--font-display-cond",
-  weight: ["300", "400", "500", "600"],
-  subsets: ["latin"],
-});
+const mySoul = My_Soul({
+  variable: "--font-my_soul",
+  weight: '400',
+  subsets: ['latin']
+})
+
 
 export const metadata = {
   title: "Weather App",
   description: "A weather application built with Next.js",
 };
 
-export const viewport = {
-  themeColor: "#0d151d",
-};
-
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
-      <body
-        className={`${barlow.variable} ${barlowCondensed.variable} min-h-[100dvh] bg-ink text-fg antialiased`}
-      >
+      <body className={`${inter.variable} ${mySoul.variable} min-h-[100dvh] font-sans antialiased`}>
         {children}
       </body>
     </html>

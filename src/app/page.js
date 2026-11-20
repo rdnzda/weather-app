@@ -57,11 +57,21 @@ export default function Home() {
   };
 
   return (
-    <div className={`${bgClass} relative flex min-h-[100dvh] w-full flex-col`}>
-      <main className="flex-1 w-full safe-top pb-28">
-        <div className="mx-auto w-full max-w-5xl px-4 sm:px-8 pt-4 sm:pt-8">
+    <div className="relative isolate min-h-[100dvh] w-full text-white">
+      {/* Photo de fond selon la météo : nette, avec un voile pour la lisibilité */}
+      <div
+        aria-hidden="true"
+        className={`fixed inset-0 -z-20 ${bgClass} bg-cover bg-center transition-all duration-500`}
+      />
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 -z-10 bg-black/30"
+      />
+
+      <main className="w-full safe-top pb-32">
+        <div className="mx-auto w-full max-w-5xl px-4 pt-4 sm:px-6 sm:pt-8">
           {currentTab === "weather" && (
-            <div className="animate-fade">
+            <div>
               <Dashboard
                 selectedCity={selectedCity}
                 onWeatherChange={handleWeatherChange}
@@ -70,13 +80,13 @@ export default function Home() {
           )}
 
           {currentTab === "settings" && (
-            <div className="animate-fade">
+            <div>
               <Settings onClearFavorites={handleClearFavorites} />
             </div>
           )}
 
           {currentTab === "favorites" && (
-            <div className="animate-fade">
+            <div>
               <Favorites
                 onSelectCity={(city) => {
                   setSelectedCity(city);
@@ -90,7 +100,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="fixed bottom-0 left-0 z-30 w-full">
+      <footer className="fixed bottom-0 left-0 z-30 w-full safe-bottom">
         <BottomMenu currentTab={currentTab} setCurrentTab={setCurrentTab} />
       </footer>
     </div>

@@ -176,15 +176,19 @@ function Dashboard({ selectedCity, onWeatherChange }) {
         <div
           role="status"
           aria-live="polite"
-          className="flex min-h-[60vh] flex-col items-center justify-center gap-4"
+          className="flex min-h-[60vh] flex-col items-center justify-center gap-3"
         >
-          <div className="h-[2px] w-40 overflow-hidden bg-line">
-            <div className="animate-loadbar h-full w-1/3 bg-sky" />
-          </div>
-          <p className="text-dim text-base">Chargement de la météo...</p>
+          <img
+            src="/images/animated/thunder.svg"
+            alt=""
+            className="h-28 w-28 object-contain sm:h-36 sm:w-36"
+          />
+          <p className="rounded-full bg-black/40 px-4 py-1.5 text-base text-white">
+            Chargement de la météo...
+          </p>
         </div>
       ) : error?.type === 'city' ? (
-        <div className="flex min-h-[60vh] items-center justify-center animate-fade">
+        <div className="flex min-h-[60vh] items-center justify-center">
           <CityNotFound
             onRetry={handleRetrySearch}
             onNewSearch={handleNewSearch}
@@ -193,28 +197,30 @@ function Dashboard({ selectedCity, onWeatherChange }) {
         </div>
       ) : weatherInfo ? (
         <div className="w-full animate-fade">
-          <div role="search" className="input-container relative w-full">
-            <label htmlFor="city-search" className="sr-only">
-              Rechercher une ville
-            </label>
-            <Search
-              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-dim"
-              aria-hidden="true"
-            />
-            <Input
-              id="city-search"
-              type="search"
-              placeholder="Rechercher une ville..."
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="h-12 w-full rounded-sm border-line-strong bg-panel pl-10 pr-3 text-base text-fg placeholder:text-dim shadow-none
-                         hover:border-dim focus-visible:border-sky focus-visible:ring-0"
-            />
-          </div>
-          <div className="mt-8 flex w-full flex-col gap-10 sm:mt-10 sm:gap-12">
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-12">
-              <WeatherCard weatherInfo={weatherInfo} />
+          <div className="flex w-full flex-col gap-4 sm:gap-5">
+            <div className="grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:items-end">
+              <div className="flex min-w-0 flex-col gap-5 sm:gap-6">
+                <WeatherCard weatherInfo={weatherInfo} />
+                <div role="search" className="input-container relative w-full">
+                  <label htmlFor="city-search" className="sr-only">
+                    Rechercher une ville
+                  </label>
+                  <Search
+                    className="pointer-events-none absolute left-4 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-white/60"
+                    aria-hidden="true"
+                  />
+                  <Input
+                    id="city-search"
+                    type="search"
+                    placeholder="Rechercher une ville..."
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="h-12 w-full rounded-xl border-white/15 bg-[rgb(12_16_22/0.86)] pl-12 pr-4 text-base text-white placeholder:text-white/55 shadow-none sm:h-14 sm:text-lg
+                               hover:border-white/25 focus-visible:border-blue-400 focus-visible:ring-2 focus-visible:ring-blue-400/40"
+                  />
+                </div>
+              </div>
               <WeatherDetails weatherInfo={weatherInfo} />
             </div>
             <WeatherForecast
@@ -224,24 +230,24 @@ function Dashboard({ selectedCity, onWeatherChange }) {
           </div>
         </div>
       ) : (
-        <div className="flex min-h-[60vh] items-center justify-center animate-fade">
+        <div className="flex min-h-[60vh] items-center justify-center">
           <section
             role="alert"
-            className="w-full max-w-md border-l-2 border-danger bg-panel px-5 py-6 sm:px-7"
+            className="panel w-full max-w-md p-6 text-center sm:p-8"
           >
-            <div className="flex items-center gap-3 text-danger">
-              <CloudOff className="h-5 w-5" strokeWidth={1.6} aria-hidden="true" />
-              <h2 className="text-lg font-semibold text-fg">
-                Impossible de récupérer la météo
-              </h2>
+            <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-500/20">
+              <CloudOff className="h-7 w-7 text-red-400" aria-hidden="true" />
             </div>
+            <h2 className="text-xl font-semibold text-white">
+              Impossible de récupérer la météo
+            </h2>
             {error?.message && (
-              <p className="mt-2 text-sm text-dim">{error.message}</p>
+              <p className="mt-2 text-sm text-white/75">{error.message}</p>
             )}
             <button
               type="button"
               onClick={() => fetchWeather("Paris")}
-              className="mt-5 inline-flex h-11 items-center gap-2 rounded-sm bg-fg px-4 text-sm font-semibold text-ink transition-colors hover:bg-sky cursor-pointer"
+              className="mt-6 inline-flex h-11 items-center gap-2 rounded-lg bg-blue-500 px-5 text-sm font-semibold text-white transition-colors hover:bg-blue-600 cursor-pointer"
             >
               <MapPin className="h-4 w-4" aria-hidden="true" />
               Charger Paris par défaut
