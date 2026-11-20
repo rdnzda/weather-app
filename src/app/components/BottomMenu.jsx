@@ -1,40 +1,45 @@
 "use client";
 
-import { FaCloudSun, FaCog, FaHeart } from "react-icons/fa";
+import { CloudSun, Star, SlidersHorizontal } from "lucide-react";
+
+const TABS = [
+  { id: "weather", label: "Météo", Icon: CloudSun },
+  { id: "favorites", label: "Favoris", Icon: Star },
+  { id: "settings", label: "Paramètres", Icon: SlidersHorizontal },
+];
 
 export default function BottomMenu({ currentTab, setCurrentTab }) {
   return (
-    <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg z-50 rounded-2xl flex px-4 py-2">
-      <button
-        onClick={() => setCurrentTab("weather")}
-        className={`flex flex-col items-center px-3 py-2 rounded-xl transition-all ${
-          currentTab === "weather"
-            ? "bg-white/20 text-primary font-semibold"
-            : "text-muted-foreground hover:bg-white/10"
-        }`}
-      >
-        <FaCloudSun size={25} />
-      </button>
-      <button
-        onClick={() => setCurrentTab("favorites")}
-        className={`flex flex-col items-center px-3 py-2 rounded-xl transition-all ${
-          currentTab === "favorites"
-            ? "bg-white/20 text-primary font-semibold"
-            : "text-muted-foreground hover:bg-white/10"
-        }`}
-      >
-        <FaHeart size={25} />
-      </button>
-      <button
-        onClick={() => setCurrentTab("settings")}
-        className={`flex flex-col items-center px-3 py-2 rounded-xl transition-all ${
-          currentTab === "settings"
-            ? "bg-white/20 text-primary font-semibold"
-            : "text-muted-foreground hover:bg-white/10"
-        }`}
-      >
-        <FaCog size={25} />
-      </button>
+    <nav
+      aria-label="Navigation principale"
+      className="border-t border-line bg-ink safe-bottom"
+    >
+      <ul className="mx-auto flex max-w-5xl sm:px-8">
+        {TABS.map(({ id, label, Icon }) => {
+          const active = currentTab === id;
+          return (
+            <li key={id} className="flex-1 sm:flex-none">
+              <button
+                type="button"
+                onClick={() => setCurrentTab(id)}
+                aria-current={active ? "page" : undefined}
+                className={`relative flex h-16 w-full flex-col items-center justify-center gap-1 px-2 text-xs font-medium transition-colors sm:h-14 sm:flex-row sm:gap-2 sm:px-6 sm:text-sm cursor-pointer focus-visible:outline-offset-[-2px] ${
+                  active ? "text-fg" : "text-dim hover:text-fg"
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`absolute inset-x-3 top-0 h-[2px] sm:inset-x-6 ${
+                    active ? "bg-sky" : "bg-transparent"
+                  }`}
+                />
+                <Icon className="h-5 w-5" strokeWidth={1.6} aria-hidden="true" />
+                <span>{label}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </nav>
   );
 }

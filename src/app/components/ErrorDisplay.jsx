@@ -16,31 +16,31 @@ export default function ErrorDisplay({
     switch (type) {
       case 'network':
         return {
-          icon: <Wifi className="w-12 h-12 text-red-400" />,
+          icon: <Wifi className="h-6 w-6 text-danger" strokeWidth={1.6} aria-hidden="true" />,
           defaultTitle: 'Problème de connexion',
           defaultMessage: 'Vérifiez votre connexion internet et réessayez.',
-          bgColor: 'bg-red-500/20'
+          bgColor: 'border-danger'
         }
       case 'notfound':
         return {
-          icon: <Search className="w-12 h-12 text-orange-400" />,
+          icon: <Search className="h-6 w-6 text-warn" strokeWidth={1.6} aria-hidden="true" />,
           defaultTitle: 'Contenu introuvable',
           defaultMessage: 'Le contenu que vous recherchez n\'existe pas.',
-          bgColor: 'bg-orange-500/20'
+          bgColor: 'border-warn'
         }
       case 'api':
         return {
-          icon: <AlertTriangle className="w-12 h-12 text-yellow-400" />,
+          icon: <AlertTriangle className="h-6 w-6 text-warn" strokeWidth={1.6} aria-hidden="true" />,
           defaultTitle: 'Erreur du service',
           defaultMessage: 'Le service météo est temporairement indisponible.',
-          bgColor: 'bg-yellow-500/20'
+          bgColor: 'border-warn'
         }
       default:
         return {
-          icon: <AlertTriangle className="w-12 h-12 text-red-400" />,
+          icon: <AlertTriangle className="h-6 w-6 text-danger" strokeWidth={1.6} aria-hidden="true" />,
           defaultTitle: 'Une erreur s\'est produite',
           defaultMessage: 'Quelque chose ne s\'est pas passé comme prévu.',
-          bgColor: 'bg-red-500/20'
+          bgColor: 'border-danger'
         }
     }
   }
@@ -48,32 +48,25 @@ export default function ErrorDisplay({
   const config = getErrorConfig()
 
   return (
-    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-xl border border-white/20 text-center max-w-md mx-auto">
-      {/* Icône d'erreur */}
-      <div className="flex justify-center mb-6">
-        <div className={`${config.bgColor} rounded-full p-4`}>
-          {config.icon}
-        </div>
+    <section role="alert" className={`w-full max-w-lg border-l-2 ${config.bgColor} bg-panel px-5 py-6 sm:px-8 sm:py-8`}>
+      <div className="flex items-center gap-3">
+        <span className="shrink-0">{config.icon}</span>
+        <h2 className="font-display text-3xl font-medium leading-tight text-fg">
+          {title || config.defaultTitle}
+        </h2>
       </div>
 
-      {/* Titre */}
-      <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
-        {title || config.defaultTitle}
-      </h2>
-
-      {/* Message */}
-      <p className="text-white/70 mb-6 text-sm sm:text-base">
+      <p className="mt-4 text-base leading-relaxed text-dim">
         {message || config.defaultMessage}
       </p>
 
-      {/* Boutons d'action */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="mt-6 flex flex-col gap-2 sm:flex-row">
         {onRetry && (
           <Button
             onClick={onRetry}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 flex-1"
+            className="h-11 flex-1 rounded-sm bg-fg px-4 text-sm font-semibold text-ink shadow-none hover:bg-sky cursor-pointer"
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="h-4 w-4" aria-hidden="true" />
             {retryText}
           </Button>
         )}
@@ -81,13 +74,13 @@ export default function ErrorDisplay({
         {onGoHome && (
           <Button
             onClick={onGoHome}
-            className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-6 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 flex-1"
+            className="h-11 flex-1 rounded-sm border border-line-strong bg-transparent px-4 text-sm font-semibold text-fg shadow-none hover:border-fg hover:bg-transparent cursor-pointer"
           >
-            <Home className="w-4 h-4" />
+            <Home className="h-4 w-4" aria-hidden="true" />
             {homeText}
           </Button>
         )}
       </div>
-    </div>
+    </section>
   )
 }

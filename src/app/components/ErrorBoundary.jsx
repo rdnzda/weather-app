@@ -20,7 +20,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-rainy flex items-center justify-center p-4">
+        <div className="bg-rainy flex min-h-[100dvh] items-center justify-center p-4">
           <ErrorDisplay
             type="generic"
             title="Une erreur inattendue s'est produite"

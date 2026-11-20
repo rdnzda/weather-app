@@ -1,21 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { formatTemperature, getTemperatureUnit } from "@/lib/temperature";
-
-const getWeatherIconSrc = (description) => {
-  const desc = description.toLowerCase();
-
-  if (desc.includes("clear")) return "/images/animated/day.svg";
-  if (desc.includes("clouds")) return "/images/animated/cloudy.svg";
-  if (desc.includes("rain")) return "/images/animated/rainy-6.svg";
-  if (desc.includes("thunderstorm")) return "/images/animated/thunder.svg";
-  if (desc.includes("snow")) return "/images/animated/snowy-1.svg";
-  if (desc.includes("mist") || desc.includes("fog"))
-    return "/images/animated/cloudy.svg";
-
-  return "/images/animated/day.svg";
-};
+import { getTemperatureUnit } from "@/lib/temperature";
+import WeatherIcon from "./WeatherIcon";
 
 const translateDescription = (desc) => {
   const translations = {
@@ -67,50 +54,37 @@ const WeatherCard = ({ weatherInfo }) => {
     ? Math.round((weatherInfo.temp * 9/5) + 32)
     : weatherInfo.temp;
 
+  const unitLetter = temperatureUnit === "fahrenheit" ? "F" : "C";
+
   return (
-    <div className="flex md:flex-row md:justify-around sm:justify-around justify-center items-center md:bg-white/10 md:backdrop-blur-md xl:p-4 lg:p-3 md:p-2 sm:p-1 p-1 rounded-xl md:shadow-md text-white text-md min-w-full">
-      <div className="flex flex-col items-center justi gap-1">
-        <h2
-          className="xl:text-5xl font-semilight
-            lg:text-4xl
-            md:text-3xl
-            text-2xl"
-        >
-          {weatherInfo.location}
-        </h2>
-        <div className="relative flex flex-row items-center justify-center gap-1">
-          <h3
-            className="xl:text-8xl font-extralight
-        lg:text-7xl
-        md:text-6xl
-        text-7xl"
-          >
-            {tempValue}
-          </h3>
-          <span className="absolute text-5xl top-1.5 -right-5">°</span>
-        </div>
-        <p
-          className="xl:text-xt mt-2 font-medium tracking-wide text-white opacity-80 text-clip
-            lg:text-lg
-            md:text-md
-            text-xs"
-        >
+    <section aria-labelledby="current-city" className="min-w-0">
+      <h2
+        id="current-city"
+        className="font-display text-4xl font-medium leading-none tracking-tight text-fg sm:text-5xl break-words"
+      >
+        {weatherInfo.location}
+      </h2>
+
+      <div className="mt-6 flex items-end justify-between gap-5 sm:gap-8">
+        <p className="font-display tabular text-[7.5rem] font-light leading-[0.78] tracking-tight text-fg sm:text-[10rem] lg:text-[11.5rem]">
+          {tempValue}
+          <span className="align-top text-[0.4em] font-normal text-dim">
+            °{unitLetter}
+          </span>
+        </p>
+        <WeatherIcon
+          description={weatherInfo.description}
+          className="mb-1 h-20 w-20 shrink-0 text-sky sm:h-28 sm:w-28 lg:mr-4"
+          strokeWidth={1}
+        />
+      </div>
+
+      <div className="mt-6 border-t border-line pt-4">
+        <p className="text-lg font-medium text-fg sm:text-xl">
           {translatedDescription}
         </p>
       </div>
-
-      <div className="md:flex flex-row items-center align-center sm:mr-5 mr-2 hidden">
-        <img
-          src={getWeatherIconSrc(weatherInfo.description)}
-          alt="weather icon"
-          className="xl:w-80 xl:h-80 object-contain
-          lg:w-70 lg:h-70
-          md:w-60 md:h-60
-          sm:w-50 sm:h-50
-          w-35 h-35"
-        />
-      </div>
-    </div>
+    </section>
   );
 };
 

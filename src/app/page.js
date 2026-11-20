@@ -57,51 +57,42 @@ export default function Home() {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      {/* ✅ Background animé et flouté */}
-      <div className={`absolute inset-0 z-0 ${bgClass} bg-cover bg-center bg-fixed blur-sm scale-110 transition-all duration-500`} />
+    <div className={`${bgClass} relative flex min-h-[100dvh] w-full flex-col`}>
+      <main className="flex-1 w-full safe-top pb-28">
+        <div className="mx-auto w-full max-w-5xl px-4 sm:px-8 pt-4 sm:pt-8">
+          {currentTab === "weather" && (
+            <div className="animate-fade">
+              <Dashboard
+                selectedCity={selectedCity}
+                onWeatherChange={handleWeatherChange}
+              />
+            </div>
+          )}
 
-      {/* ✅ Overlay sombre pour lisibilité */}
-      <div className="absolute inset-0 z-10 bg-black/30" />
+          {currentTab === "settings" && (
+            <div className="animate-fade">
+              <Settings onClearFavorites={handleClearFavorites} />
+            </div>
+          )}
 
-      {/* ✅ Contenu principal */}
-      <div className="relative z-20 flex flex-col h-full w-full safe-top safe-bottom">
-        <main className="flex-1 h-full items-center justify-center overflow-y-auto min-w-full pt-3 pb-20">
-          <div className="flex justify-center items-center min-h-full p-4 sm:p-6">
-            {currentTab === "weather" && (
-              <div className="animate-in fade-in-0 slide-in-from-bottom-4 duration-500 w-full flex justify-center">
-                <Dashboard
-                  selectedCity={selectedCity}
-                  onWeatherChange={handleWeatherChange}
-                />
-              </div>
-            )}
+          {currentTab === "favorites" && (
+            <div className="animate-fade">
+              <Favorites
+                onSelectCity={(city) => {
+                  setSelectedCity(city);
+                  setCurrentTab("weather");
+                }}
+                cities={favorites}
+                setCities={setFavorites}
+              />
+            </div>
+          )}
+        </div>
+      </main>
 
-            {currentTab === "settings" && (
-              <div className="animate-in fade-in-0 slide-in-from-right-4 duration-500 w-full flex justify-center">
-                <Settings onClearFavorites={handleClearFavorites} />
-              </div>
-            )}
-
-            {currentTab === "favorites" && (
-              <div className="animate-in fade-in-0 slide-in-from-left-4 duration-500 w-full flex justify-center">
-                <Favorites
-                  onSelectCity={(city) => {
-                    setSelectedCity(city);
-                    setCurrentTab("weather");
-                  }}
-                  cities={favorites}
-                  setCities={setFavorites}
-                />
-              </div>
-            )}
-          </div>
-        </main>
-
-        <footer className="fixed bottom-0 left-0 w-full z-30 safe-bottom">
-          <BottomMenu currentTab={currentTab} setCurrentTab={setCurrentTab} />
-        </footer>
-      </div>
+      <footer className="fixed bottom-0 left-0 z-30 w-full">
+        <BottomMenu currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      </footer>
     </div>
   );
 }

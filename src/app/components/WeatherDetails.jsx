@@ -34,97 +34,38 @@ const WeatherDetails = ({ weatherInfo }) => {
     ? Math.round((feels_like * 9/5) + 32)
     : Math.round(feels_like);
 
+  const rows = [
+    { label: "Ressentie", value: feelsLikeTemp, unit: "°", Icon: ThermometerSun },
+    { label: "Humidité", value: humidity, unit: "%", Icon: Droplets },
+    { label: "Vent", value: windSpeed, unit: "m/s", Icon: Wind },
+    { label: "Pression", value: pressure, unit: "hPa", Icon: GaugeCircle },
+  ];
+
   return (
-    <div className="bg-white/10 backdrop-blur-md xl:p-4 lg:p-3 md:p-2 sm:p-1 p-1 rounded-xl shadow-md text-white w-full xl:pt-10 xl:pb-10 lg:pt-8 lg:pb-8 md:pt-6 md:pb-6 sm:pt-4 sm:pb-4 pt-4 pb-4">
-      <h2
-        className="xl:text-md font-bold mb-5 ml-5
-        lg:text-sm
-        md:text-xs
-        sm:text-xs
-        text-xs"
-      >
-        QUALITÉ DE L'AIR
+    <section aria-labelledby="details-title" className="min-w-0 lg:border-l lg:border-line lg:pl-12">
+      <h2 id="details-title" className="text-sm font-semibold text-dim">
+        Qualité de l&apos;air
       </h2>
-      <div className="grid grid-cols-2 xl:gap-5 lg:gap-4 md:gap-3 sm:gap-2 gap-2 text-lg ml-7">
-        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1">
-          <div className="flex flex-row gap-3">
-            <ThermometerSun className="md:w-8 md:h-8 w-6 h-6 text-yellow-400" />
-            <p
-              className="xl:text-lg
-            lg:text-md
-            md:text-sm
-            sm:text-xs
-            text-xs"
-            >
-              Ressentie
-            </p>
-          </div>
-          <p
-            className="font-bold xl:text-3xl md:ml-11 ml-9
-          lg:text-2xl
-          md:text-xl
-          sm:text-lg
-          text-xs"
+      <dl className="mt-3 grid grid-cols-2 border-t border-line lg:grid-cols-1">
+        {rows.map(({ label, value, unit, Icon }, i) => (
+          <div
+            key={label}
+            className={`flex flex-col gap-1 border-b border-line py-4 lg:flex-row lg:items-baseline lg:justify-between ${
+              i % 2 === 0 ? "pr-4 border-r lg:border-r-0 lg:pr-0" : "pl-4 lg:pl-0"
+            }`}
           >
-            {feelsLikeTemp}°
-          </p>
-        </div>
-
-        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1">
-          <div className="flex flex-row gap-3">
-            <Droplets className="md:w-8 md:h-8 w-6 h-6 text-blue-300" />
-            <p className="xl:text-lg lg:text-md md:text-sm sm:text-xs text-xs">
-              Humidité
-            </p>
+            <dt className="flex items-center gap-2 text-sm text-dim">
+              <Icon className="h-4 w-4" strokeWidth={1.6} aria-hidden="true" />
+              {label}
+            </dt>
+            <dd className="font-display tabular text-3xl font-medium leading-none text-fg sm:text-4xl">
+              {value}
+              <span className={`${unit === "°" ? "" : "ml-1 "}text-base font-normal text-dim`}>{unit}</span>
+            </dd>
           </div>
-          <p
-            className="font-bold xl:text-3xl md:ml-11 ml-9
-          lg:text-2xl
-          md:text-xl
-          sm:text-lg
-          text-xs"
-          >
-            {humidity}%
-          </p>
-        </div>
-
-        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1">
-          <div className="flex flex-row gap-3">
-            <Wind className="md:w-8 md:h-8 w-6 h-6 text-sky-400" />
-            <p className="xl:text-lg lg:text-md md:text-sm sm:text-xs text-xs">
-              Vent
-            </p>
-          </div>
-          <p
-            className="font-bold xl:text-3xl md:ml-11 ml-9
-          lg:text-2xl
-          md:text-xl
-          sm:text-lg
-          text-xs"
-          >
-            {windSpeed} m/s
-          </p>
-        </div>
-
-        <div className="flex flex-col xl:gap-3 lg:gap-2 md:gap-1 sm:gap-1">
-          <div className="flex flex-row gap-3">
-            <GaugeCircle className="md:w-8 md:h-8 w-6 h-6 text-purple-300" />
-            <p className="xl:text-lg lg:text-md md:text-sm sm:text-xs text-xs">
-              Pression
-            </p>
-          </div>
-          <p
-            className="font-bold xl:text-3xl md:ml-11 ml-9
-          lg:text-2xl
-          md:text-xl
-          sm:text-lg
-          text-xs"
-          >
-            {pressure} hPa
-          </p>
-        </div>
-      </div>
-    </div>
+        ))}
+      </dl>
+    </section>
   );
 };
 

@@ -1,46 +1,33 @@
 'use client'
 
-import { AlertCircle, Search, Home } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Home } from 'lucide-react'
 import Link from 'next/link'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-thunder">
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-white/20 max-w-md w-full text-center">
-        {/* Icône 404 */}
-        <div className="flex justify-center mb-6">
-          <div className="bg-orange-500/20 rounded-full p-4">
-            <AlertCircle className="w-12 h-12 text-orange-400" />
-          </div>
-        </div>
-
-        {/* Code d'erreur */}
-        <div className="text-6xl sm:text-7xl font-bold text-white/20 mb-4">
+    <div className="bg-thunder flex min-h-[100dvh] items-center justify-center p-4">
+      <section className="w-full max-w-lg border-l-2 border-warn bg-panel px-5 py-6 sm:px-8 sm:py-8">
+        <p className="font-display tabular text-7xl font-light leading-none text-dim sm:text-8xl" aria-hidden="true">
           404
-        </div>
+        </p>
 
-        {/* Titre */}
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+        <h1 className="mt-4 font-display text-3xl font-medium leading-tight text-fg sm:text-4xl">
           Page introuvable
         </h1>
 
-        {/* Description */}
-        <p className="text-white/70 mb-6 text-sm sm:text-base">
+        <p className="mt-3 text-base leading-relaxed text-dim">
           La page que vous recherchez n&apos;existe pas ou a été déplacée.
           Retournez à l&apos;accueil pour consulter la météo.
         </p>
 
-        {/* Boutons d'action */}
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Link href="/" className="flex-1">
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 w-full">
-              <Home className="w-4 h-4" />
-              Accueil
-            </Button>
-          </Link>
-        </div>
-      </div>
+        <Link
+          href="/"
+          className="mt-6 inline-flex h-11 w-full items-center justify-center gap-2 rounded-sm bg-fg px-6 text-sm font-semibold text-ink transition-colors hover:bg-sky sm:w-auto"
+        >
+          <Home className="h-4 w-4" aria-hidden="true" />
+          Accueil
+        </Link>
+      </section>
     </div>
   )
 }

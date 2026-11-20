@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { FaHeart, FaTrash } from "react-icons/fa";
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, Star, CircleAlert } from "lucide-react";
 import { getCoordinatesFromCity, getWeather } from "../services/api.js";
 import Favorite from "./Favorite.jsx";
 
@@ -95,86 +94,81 @@ export default function Favorites({ onSelectCity, cities, setCities }) {
   };
 
   return (
-    <div className="flex flex-col gap-6 sm:gap-8 w-full max-w-2xl text-white p-3 sm:p-6">
-      {/* En-tête moderne */}
-      <div className="flex items-center gap-3 sm:gap-4 mb-2">
-        <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-pink-500/20 to-red-500/20 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-pink-400/30">
-          <FaHeart className="w-5 h-5 sm:w-6 sm:h-6 text-pink-300" />
-        </div>
-        <div>
-          <h1 className="text-xl sm:text-2xl font-light text-white/90">Mes Favoris</h1>
-          <p className="text-xs sm:text-sm text-white/50 -mt-1">Vos villes préférées</p>
-        </div>
-      </div>
+    <div className="flex w-full max-w-3xl flex-col">
+      <header className="border-b border-line pb-5">
+        <h1 className="font-display text-4xl font-medium leading-none text-fg sm:text-5xl">Mes Favoris</h1>
+        <p className="mt-2 text-sm text-dim">Vos villes préférées</p>
+      </header>
 
       {/* Ajout de ville */}
-      <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 shadow-lg border border-white/20 hover:border-white/30 transition-all duration-300">
-        {/* Message d'erreur */}
-        {errorMessage && (
-          <div className={`mb-3 p-3 rounded-lg text-sm font-medium transition-all duration-300 ${
-            errorType === "duplicate" 
-              ? "bg-orange-500/20 text-orange-300 border border-orange-400/30" 
-              : "bg-red-500/20 text-red-300 border border-red-400/30"
-          }`}>
-            <div className="flex items-center gap-2">
-              {errorType === "duplicate" ? (
-                <FaHeart className="w-4 h-4 text-orange-400" />
-              ) : (
-                <Search className="w-4 h-4 text-red-400" />
-              )}
-              {errorMessage}
-            </div>
-          </div>
-        )}
-        
-        <div className="flex items-center gap-2 sm:gap-3">
+      <div className="mt-6">
+        <label htmlFor="favorite-input" className="sr-only">
+          Rechercher et ajouter une ville
+        </label>
+        <div className="flex items-stretch gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-white/60" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-dim" aria-hidden="true" />
             <Input
+              id="favorite-input"
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Rechercher et ajouter une ville..."
-              className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-white placeholder:text-white/50 bg-white/5 border border-white/20 rounded-lg sm:rounded-xl 
-                         focus:border-white/50 focus:ring-2 focus:ring-white/20 focus:bg-white/10
-                         transition-all duration-200 text-base sm:text-lg font-light
-                         hover:bg-white/10 hover:border-white/30"
+              aria-describedby="favorite-hint"
+              className="h-12 w-full rounded-sm border-line-strong bg-panel pl-10 pr-3 text-base text-fg placeholder:text-dim shadow-none hover:border-dim focus-visible:border-sky focus-visible:ring-0"
               onKeyDown={(e) => {
                 if (e.key === "Enter") addCity();
               }}
             />
           </div>
           <button
+            type="button"
             onClick={addCity}
             disabled={isAdding}
-            className={`flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-400/50 ${
-              isAdding 
-                ? "bg-blue-500/50 cursor-not-allowed" 
-                : "bg-blue-500/80 hover:bg-blue-500"
+            aria-label="Ajouter la ville"
+            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-sm transition-colors cursor-pointer ${
+              isAdding
+                ? "cursor-not-allowed bg-line text-dim"
+                : "bg-fg text-ink hover:bg-sky"
             }`}
           >
             {isAdding ? (
-              <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-dim border-t-fg" aria-hidden="true" />
             ) : (
-              <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <Plus className="h-5 w-5" aria-hidden="true" />
             )}
           </button>
         </div>
-        <p className="text-xs text-white/50 mt-2 ml-1">
+        <p id="favorite-hint" className="mt-2 text-sm text-dim">
           Appuyez sur Entrée ou cliquez sur + pour ajouter la ville
         </p>
+
+        {/* Message d'erreur */}
+        {errorMessage && (
+          <p
+            role="alert"
+            className={`mt-3 flex items-center gap-2 border-l-2 bg-panel px-3 py-2.5 text-sm font-medium text-fg ${
+              errorType === "duplicate" ? "border-warn" : "border-danger"
+            }`}
+          >
+            {errorType === "duplicate" ? (
+              <Star className="h-4 w-4 shrink-0 text-warn" aria-hidden="true" />
+            ) : (
+              <CircleAlert className="h-4 w-4 shrink-0 text-danger" aria-hidden="true" />
+            )}
+            {errorMessage}
+          </p>
+        )}
       </div>
 
       {/* Liste des favoris */}
-      <div className="text-white w-full">
-        <ul className="flex flex-col gap-3 sm:gap-5">
+      <div className="mt-8 w-full">
+        <ul className="flex flex-col border-t border-line">
           {cities.length === 0 && (
-            <li className="p-6 sm:p-8 text-center text-white/70 italic bg-white/5 rounded-xl sm:rounded-2xl border border-white/10">
-              <div className="flex flex-col items-center gap-2 sm:gap-3">
-                <FaHeart className="w-6 h-6 sm:w-8 sm:h-8 text-white/30" />
-                <p className="text-base sm:text-lg">Aucune ville favorite ajoutée</p>
-                <p className="text-xs sm:text-sm text-white/50">Commencez par ajouter vos villes préférées !</p>
-              </div>
+            <li className="flex flex-col items-start gap-1 border-b border-line py-10">
+              <Star className="mb-2 h-6 w-6 text-line-strong" strokeWidth={1.6} aria-hidden="true" />
+              <p className="text-lg font-medium text-fg">Aucune ville favorite ajoutée</p>
+              <p className="text-sm text-dim">Commencez par ajouter vos villes préférées !</p>
             </li>
           )}
           {cities.map((city) => (

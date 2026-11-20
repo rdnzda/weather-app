@@ -10,54 +10,45 @@ export default function Error({ error, reset }) {
   }, [error])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
-      <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 sm:p-8 shadow-2xl border border-white/20 max-w-md w-full text-center">
-        {/* Icône d'erreur */}
-        <div className="flex justify-center mb-6">
-          <div className="bg-red-500/20 rounded-full p-4">
-            <AlertTriangle className="w-12 h-12 text-red-400" />
-          </div>
+    <div className="bg-rainy flex min-h-[100dvh] items-center justify-center p-4">
+      <section role="alert" className="w-full max-w-lg border-l-2 border-danger bg-panel px-5 py-6 sm:px-8 sm:py-8">
+        <div className="flex items-center gap-3">
+          <AlertTriangle className="h-6 w-6 shrink-0 text-danger" strokeWidth={1.6} aria-hidden="true" />
+          <h1 className="font-display text-3xl font-medium leading-tight text-fg sm:text-4xl">
+            Oups ! Une erreur s&apos;est produite
+          </h1>
         </div>
 
-        {/* Titre */}
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-          Oups ! Une erreur s&apos;est produite
-        </h1>
-
-        {/* Description */}
-        <p className="text-white/70 mb-6 text-sm sm:text-base">
-          Quelque chose ne s&apos;est pas passé comme prévu. 
+        <p className="mt-4 text-base leading-relaxed text-dim">
+          Quelque chose ne s&apos;est pas passé comme prévu.
           Veuillez réessayer ou retourner à l&apos;accueil.
         </p>
 
         {/* Détails de l'erreur (en développement) */}
         {process.env.NODE_ENV === 'development' && (
-          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-6 text-left">
-            <p className="text-red-300 text-xs font-mono">
-              {error?.message || 'Erreur inconnue'}
-            </p>
-          </div>
+          <pre className="mt-4 overflow-x-auto border border-line bg-ink p-3 text-xs text-danger">
+            {error?.message || 'Erreur inconnue'}
+          </pre>
         )}
 
-        {/* Boutons d'action */}
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="mt-6 flex flex-col gap-2 sm:flex-row">
           <Button
             onClick={reset}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 flex-1"
+            className="h-11 flex-1 rounded-sm bg-fg px-4 text-sm font-semibold text-ink shadow-none hover:bg-sky cursor-pointer"
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="h-4 w-4" aria-hidden="true" />
             Réessayer
           </Button>
 
           <Button
             onClick={() => window.location.href = '/'}
-            className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-6 py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 flex-1"
+            className="h-11 flex-1 rounded-sm border border-line-strong bg-transparent px-4 text-sm font-semibold text-fg shadow-none hover:border-fg hover:bg-transparent cursor-pointer"
           >
-            <Home className="w-4 h-4" />
+            <Home className="h-4 w-4" aria-hidden="true" />
             Accueil
           </Button>
         </div>
-      </div>
+      </section>
     </div>
   )
 }
